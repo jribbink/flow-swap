@@ -1,7 +1,7 @@
 // @ts-ignore
 import * as fcl from '@onflow/fcl'
 import { useFlowBalance } from "hooks/use-flow-balance"
-import FlowImage from 'assets/flow.png'
+import FlowImage from 'assets/coins/FLOW.png'
 import Image from "next/image"
 import styles from "styles/header.module.css"
 import { MouseEventHandler, useState } from "react"

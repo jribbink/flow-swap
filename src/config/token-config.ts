@@ -1,17 +1,18 @@
 import { Token } from 'models/token'
-import FlowImage from 'assets/flow.png'
+import FLOWImage from 'assets/coins/FLOW.png'
+import FUSDImage from 'assets/coins/FUSD.png'
 
 export const tokenConfig = {
     tokens: [
         {
             ticker: 'FLOW',
             contractAddress: '0x12345',
-            image: FlowImage
+            image: FLOWImage
         },
         {
             ticker: 'FUSD',
             contractAddress: '0x12345',
-            image: FlowImage
+            image: FUSDImage
         }
     ] as Token[]
 }

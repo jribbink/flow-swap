@@ -1,7 +1,4 @@
-// @ts-ignore
-import * as fcl from "@onflow/fcl"
 import Image from "next/image";
-import { Component, useEffect, useState } from "react";
 import KittyImage from "assets/kitty-eth.svg"
 import ConnectWalletButton from "./ConnectWalletButton";
 import UserMenu from "./UserMenu";

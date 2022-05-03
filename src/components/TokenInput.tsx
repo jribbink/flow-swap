@@ -5,12 +5,13 @@ import TokenSelect from "./TokenSelect"
 
 type TokenInputProps = {
     variant: "to" | "from"
-    allowedTokens?: Token[]
+    availableTokens?: Token[]
+    tokens: Token[]
     defaultToken?: Token
     onChangeToken?: (token: Token) => void
 }
 
-export default ({variant, allowedTokens, defaultToken}: TokenInputProps) => {
+export default ({variant, availableTokens, tokens, defaultToken}: TokenInputProps) => {
     const [type, setType] = useState(() => defaultToken)
 
     const inputRef = useRef(null)
@@ -41,6 +42,8 @@ export default ({variant, allowedTokens, defaultToken}: TokenInputProps) => {
                 />
                 <TokenSelect
                     defaultToken={defaultToken}
+                    availableTokens={availableTokens}
+                    tokens={tokens}
                     onChange={token => setType(token)}
                     onClick={e => e.stopPropagation()}
                 />

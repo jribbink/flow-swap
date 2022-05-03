@@ -1,21 +1,23 @@
 import { Token } from "models/token"
 import { MouseEventHandler, useEffect, useState } from "react"
-import FlowImage from 'assets/flow.png'
+import FlowImage from 'assets/coins/FLOW.png'
 import styles from "styles/header.module.css"
 import useCurrentUser from "hooks/use-current-user"
 import { useFlowBalance } from "hooks/use-flow-balance"
 import Image from "next/image"
-import SelectTokenModal from "./SelectTokenModal"
+import TokenSelectModal from "./TokenSelectModal"
 
 
 type TokenSelectProps = {
     onChange?: (token: Token) => void
     onClick?: MouseEventHandler
-    defaultToken?: Token,
+    defaultToken?: Token
     showBalance?: boolean
+    tokens: Token[]
+    availableTokens?: Token[]
 }
 
-export default ({onChange, onClick, defaultToken, showBalance = false}: TokenSelectProps) => {
+export default ({onChange, onClick, defaultToken, showBalance = false, tokens, availableTokens = tokens}: TokenSelectProps) => {
     const [token, setToken] = useState(() => defaultToken)
     const [buttonClasses, setButtonClasses] = useState<string>()
     const [showModal, setShowModal] = useState(false)
@@ -58,7 +60,13 @@ export default ({onChange, onClick, defaultToken, showBalance = false}: TokenSel
                     "Select Token"
                 }
             </button>
-            <SelectTokenModal show={showModal} onShowChange={setShowModal}></SelectTokenModal>
+            <TokenSelectModal
+                show={showModal}
+                onShowChange={setShowModal}
+                onTokenChange={onChange}
+                tokens={tokens}
+                availableTokens={availableTokens}
+            />
         </>
     )
 }
