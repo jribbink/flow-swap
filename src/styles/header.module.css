@@ -1,0 +1,3 @@
+.user-menu-balance:hover + .dropdown-menu, .dropdown-menu:hover {
+    display: block
+}
