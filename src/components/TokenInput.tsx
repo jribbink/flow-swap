@@ -1,6 +1,6 @@
 import { exists } from "fs"
 import { Token } from "models/token"
-import { KeyboardEventHandler, useRef, useState } from "react"
+import { KeyboardEventHandler, useEffect, useRef, useState } from "react"
 import TokenSelect from "./TokenSelect"
 
 const noop = (...args: any[]) => {}
@@ -8,6 +8,7 @@ const noop = (...args: any[]) => {}
 type TokenInputProps = {
     variant: "to" | "from"
     availableTokens?: Token[]
+    amount?: number
     token?: Token
     tokens: Token[]
     onChangeToken?: (token: Token) => void
@@ -17,11 +18,25 @@ type TokenInputProps = {
 export default ({
     variant,
     availableTokens,
+    amount,
     token,
     tokens,
     onChangeToken = noop,
     onChangeAmount = noop,
 }: TokenInputProps) => {
+    // needs independent string input state in order to retain decimal places that would not be retained in floating point
+    const [value, setValue] = useState<string>("")
+
+    // sync value string with numerical amount
+    useEffect(() => {
+        if((parseFloat(value) || 0) != amount) {
+            setValue((amount ?? 0).toString())
+        }
+    }, [amount])
+
+    // sync numerical amount with value string
+    useEffect(() => onChangeAmount(parseFloat(value.replace(',', '.')) || 0), [value])
+
     const inputRef = useRef(null)
     const inputClick = () => {
         const element: HTMLElement = inputRef.current!
@@ -41,13 +56,14 @@ export default ({
             <div>{(variant == "to")?"To":"From"}</div>
             <div className="d-flex flex-row">
                 <input
+                    value={value}
                     className="form-control no-border bg-transparent flex-shrink-1"
                     style={{'fontSize': '25px', 'fontWeight': "550"}}
                     placeholder="0.0"
                     pattern="^[0-9]*[.,]?[0-9]*$"
                     ref={inputRef}
                     onKeyPress={onInput}
-                    onChange={e => onChangeAmount(parseFloat(e.target.value))}
+                    onChange={e => setValue(e.target.value)}
                 />
                 <TokenSelect
                     value={token}

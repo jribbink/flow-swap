@@ -14,7 +14,7 @@ export const tokenConfig = {
             ticker: 'FUSD',
             contractAddress: '0x12345',
             image: FUSDImage,
-            poolAmount: 5000
+            poolAmount: 4730
         }
     ] as Token[]
 }

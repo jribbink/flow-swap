@@ -2,10 +2,14 @@ import { tokenConfig } from "config/token-config"
 import useCurrentUser from "hooks/use-current-user"
 import { Currency } from "models/currency"
 import { Token } from "models/token"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import ConnectWalletButton from "./ConnectWalletButton"
 import SwapButton from "./SwapButton"
 import TokenInput from "./TokenInput"
+
+function round (value: number, precision: number) {
+    return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision)
+}
 
 export default () => {
     const tokens = tokenConfig.tokens
@@ -35,17 +39,35 @@ export default () => {
         else setDisabledText(null)
     }, [tokenTo, tokenFrom, amountFrom])
 
+
+    // Ref that stores whether next token update should be ignored (prevent looping amount changes between to/from) 
+    const tokenChangedRef = useRef<boolean>(false)
+
     function updateTokenAmounts(
         changedAmount: number,
         setOtherAmount: Dispatch<SetStateAction<number>>,
         changedToken?: Token,
-        otherToken?: Token
+        otherToken?: Token,
+        str?: string
     ) {
-        setOtherAmount(changedAmount)
+        if(tokenChangedRef.current == true) {
+            tokenChangedRef.current = false
+            return
+        } else {
+            tokenChangedRef.current = true
+        }
+
+        console.log("update")
+
+        let ratio = 0
+        if(otherToken?.poolAmount && changedToken?.poolAmount)
+            ratio = otherToken?.poolAmount / changedToken.poolAmount
+
+        setOtherAmount(round(changedAmount * ratio, 8))
     }
 
+    useEffect(() => updateTokenAmounts(amountFrom, setAmountTo, tokenFrom, tokenTo), [tokenTo, tokenFrom, amountFrom])
     useEffect(() => updateTokenAmounts(amountTo, setAmountFrom, tokenTo, tokenFrom), [amountTo])
-    useEffect(() => updateTokenAmounts(amountFrom, setAmountTo, tokenFrom, tokenTo), [amountFrom])
 
     const onChangeTokenFrom = (token: Token) => {
         if(token.ticker == tokenTo?.ticker) {
@@ -68,16 +90,18 @@ export default () => {
                 variant="from"
                 availableTokens={availableTokens}
                 tokens={tokenConfig.tokens}
+                amount={amountFrom}
                 token={tokenFrom}
-                onChangeAmount={setAmountFrom}
+                onChangeAmount={newAmount => setAmountFrom(newAmount)}
                 onChangeToken={onChangeTokenFrom}
             />
             <TokenInput
                 variant="to"
                 availableTokens={availableTokens}
                 tokens={tokenConfig.tokens}
+                amount={amountTo}
                 token={tokenTo}
-                onChangeAmount={setAmountTo}
+                onChangeAmount={newAmount => setAmountTo(newAmount)}
                 onChangeToken={onChangeTokenTo}
             ></TokenInput>
             {
