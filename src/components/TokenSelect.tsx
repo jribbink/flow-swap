@@ -7,18 +7,18 @@ import { useFlowBalance } from "hooks/use-flow-balance"
 import Image from "next/image"
 import TokenSelectModal from "./TokenSelectModal"
 
+const noop = (...args: any[]) => {}
 
 type TokenSelectProps = {
     onChange?: (token: Token) => void
     onClick?: MouseEventHandler
-    defaultToken?: Token
+    value?: Token
     showBalance?: boolean
     tokens: Token[]
     availableTokens?: Token[]
 }
 
-export default ({onChange, onClick, defaultToken, showBalance = false, tokens, availableTokens = tokens}: TokenSelectProps) => {
-    const [token, setToken] = useState(() => defaultToken)
+export default ({onChange, onClick, value: token, showBalance = false, tokens, availableTokens = tokens}: TokenSelectProps) => {
     const [buttonClasses, setButtonClasses] = useState<string>()
     const [showModal, setShowModal] = useState(false)
 
@@ -41,8 +41,8 @@ export default ({onChange, onClick, defaultToken, showBalance = false, tokens, a
     useEffect(() => setButtonClasses(getButtonClass()), [token])
 
     const buttonClickHandler: MouseEventHandler = e => {
-        setShowModal(true)
-        e.stopPropagation()
+        setShowModal(true);
+        (onClick ?? noop)(e)
     }
 
     return (
@@ -64,6 +64,7 @@ export default ({onChange, onClick, defaultToken, showBalance = false, tokens, a
                 show={showModal}
                 onShowChange={setShowModal}
                 onTokenChange={onChange}
+                currentToken={token}
                 tokens={tokens}
                 availableTokens={availableTokens}
             />

@@ -3,17 +3,25 @@ import { Token } from "models/token"
 import { KeyboardEventHandler, useRef, useState } from "react"
 import TokenSelect from "./TokenSelect"
 
+const noop = (...args: any[]) => {}
+
 type TokenInputProps = {
     variant: "to" | "from"
     availableTokens?: Token[]
+    token?: Token
     tokens: Token[]
-    defaultToken?: Token
     onChangeToken?: (token: Token) => void
+    onChangeAmount?: (amount: number) => void
 }
 
-export default ({variant, availableTokens, tokens, defaultToken}: TokenInputProps) => {
-    const [type, setType] = useState(() => defaultToken)
-
+export default ({
+    variant,
+    availableTokens,
+    token,
+    tokens,
+    onChangeToken = noop,
+    onChangeAmount = noop,
+}: TokenInputProps) => {
     const inputRef = useRef(null)
     const inputClick = () => {
         const element: HTMLElement = inputRef.current!
@@ -39,12 +47,13 @@ export default ({variant, availableTokens, tokens, defaultToken}: TokenInputProp
                     pattern="^[0-9]*[.,]?[0-9]*$"
                     ref={inputRef}
                     onKeyPress={onInput}
+                    onChange={e => onChangeAmount(parseFloat(e.target.value))}
                 />
                 <TokenSelect
-                    defaultToken={defaultToken}
+                    value={token}
                     availableTokens={availableTokens}
                     tokens={tokens}
-                    onChange={token => setType(token)}
+                    onChange={token => onChangeToken(token)}
                     onClick={e => e.stopPropagation()}
                 />
             </div>

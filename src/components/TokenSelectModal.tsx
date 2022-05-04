@@ -8,6 +8,7 @@ const noop = (...args: any[]) => {}
 interface SelectTokenModalProps extends BaseModalProps {
     onTokenChange?: (token: Token) => void
     tokens: Token[]
+    currentToken?: Token
     availableTokens: Token[]
 }
 
@@ -16,6 +17,7 @@ export default ({
     onTokenChange,
     show,
     tokens,
+    currentToken,
     availableTokens
 }: SelectTokenModalProps) => {
     const handleTokenClick = (token: Token) => {
@@ -34,7 +36,14 @@ export default ({
                 <div className="list-group m-0">
                 {
                     tokens.map(token => (
-                        <button onClick={() => handleTokenClick(token)} className="list-group-item list-group-item-action hover-dark border-0 px-4 py-3 d-flex align-items-center">
+                        <button
+                            disabled={ token.ticker == currentToken?.ticker }
+                            className="list-group-item list-group-item-action hover-dark border-0 px-4 py-3 d-flex align-items-center listgroup-disabled-50"
+                            style={
+                                !availableTokens.find(t => t.ticker == token.ticker) ? {opacity: '50%'}: {}
+                            }
+                            onClick={() => handleTokenClick(token)}
+                        >
                             { token.image ?
                                 <Image height={40} width={40} src={token.image} objectFit="contain" />
                             : null }

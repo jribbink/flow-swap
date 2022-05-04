@@ -3,6 +3,7 @@ import KittyImage from "assets/kitty-eth.svg"
 import ConnectWalletButton from "./ConnectWalletButton";
 import UserMenu from "./UserMenu";
 import useCurrentUser from "hooks/use-current-user";
+import TokenSelect from "./TokenSelect";
 
 type HeaderProps = {}
 

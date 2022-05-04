@@ -7,12 +7,14 @@ export const tokenConfig = {
         {
             ticker: 'FLOW',
             contractAddress: '0x12345',
-            image: FLOWImage
+            image: FLOWImage,
+            poolAmount: 1000
         },
         {
             ticker: 'FUSD',
             contractAddress: '0x12345',
-            image: FUSDImage
+            image: FUSDImage,
+            poolAmount: 5000
         }
     ] as Token[]
 }

@@ -15,3 +15,8 @@
     margin-top: 5vh !important;
     max-height: 90% !important;
 }
+
+.listgroup-disabled-50:disabled {
+    opacity: 50% !important;
+    color: #212529 !important;
+}
