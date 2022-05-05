@@ -87,7 +87,7 @@ export default () => {
         <div className="bg-white mx-auto rounded-4 p-4 shadow" style={{maxWidth: '400px'}}>
             <div style={{'fontSize': '18px', 'fontWeight': '550'}}>Swap</div>
             <TokenInput
-                variant="from"
+                label="From"
                 availableTokens={availableTokens}
                 tokens={tokenConfig.tokens}
                 amount={amountFrom}
@@ -96,7 +96,7 @@ export default () => {
                 onChangeToken={onChangeTokenFrom}
             />
             <TokenInput
-                variant="to"
+                label="To"
                 availableTokens={availableTokens}
                 tokens={tokenConfig.tokens}
                 amount={amountTo}

@@ -1,9 +1,7 @@
 import Layout from 'components/Layout'
-import SwapContainer from 'components/SwapContainer'
+import LiquidityContainer from 'components/LiquidityContainer'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import KittyGrid from '../components/KittyGrid'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -15,7 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <Layout>
-        <SwapContainer></SwapContainer>
+        <LiquidityContainer></LiquidityContainer>
       </Layout>
     </>
   )

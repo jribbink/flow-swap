@@ -8,7 +8,7 @@ import TokenSelect from "./TokenSelect"
 const noop = (...args: any[]) => {}
 
 type TokenInputProps = {
-    variant: "to" | "from"
+    label: string
     availableTokens?: Token[]
     amount?: number
     token?: Token
@@ -18,7 +18,7 @@ type TokenInputProps = {
 }
 
 export default ({
-    variant,
+    label,
     availableTokens,
     amount,
     token,
@@ -58,10 +58,14 @@ export default ({
     return (
         <div className="border rounded p-2 my-4 d-flex flex-column" style={{'backgroundColor': 'rgb(247, 248, 250)'}} onClick={inputClick}>
             <div className="d-flex flex-row align-content-center">
-                <div>{(variant == "to")?"To":"From"}</div>
-                <div className="ms-auto" style={{opacity: 0.5, fontSize: '0.9em'}}>
-                    {`Balance: ${balance}`}
-                </div>
+                <div>{label}</div>
+                {
+                    user.loggedIn ? (
+                        <div className="ms-auto" style={{opacity: 0.5, fontSize: '0.9em'}}>
+                            {`Balance: ${balance}`}
+                        </div>
+                    ) : null
+                }
             </div>
             <div className="d-flex flex-row">
                 <input
