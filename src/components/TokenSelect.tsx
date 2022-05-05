@@ -47,19 +47,21 @@ export default ({onChange, onClick, value: token, showBalance = false, tokens, a
 
     return (
         <>
-            <button onClick={buttonClickHandler} className={buttonClasses}>
-                {
-                    token ?
-                        (<>
-                            <Image src={FlowImage} width="50" height="50" ></Image>
-                            <span className="ms-2">
-                                { showBalance ? balance : token?.ticker }
-                            </span>
-                        </>)
-                    :
-                    "Select Token"
-                }
-            </button>
+            <div className="d-flex flex-column justify-content-center">
+                <button onClick={buttonClickHandler} className={buttonClasses}>
+                    {
+                        token ?
+                            (<>
+                                <Image src={FlowImage} width="45" height="45" ></Image>
+                                <span className="ms-2">
+                                    { showBalance ? balance : token?.ticker }
+                                </span>
+                            </>)
+                        :
+                        "Select Token"
+                    }
+                </button>
+            </div>
             <TokenSelectModal
                 show={showModal}
                 onShowChange={setShowModal}

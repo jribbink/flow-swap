@@ -8,13 +8,15 @@ export const tokenConfig = {
             ticker: 'FLOW',
             contractAddress: '0x12345',
             image: FLOWImage,
-            poolAmount: 1000
+            poolAmount: 1000,
+            path: '/public/flowTokenBalance'
         },
         {
             ticker: 'FUSD',
             contractAddress: '0x12345',
             image: FUSDImage,
-            poolAmount: 4730
+            poolAmount: 4730,
+            path: '/public/fusdBalance'
         }
     ] as Token[]
 }
