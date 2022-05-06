@@ -5,7 +5,30 @@
 			"serviceAccount": "emulator-account"
 		}
 	},
-	"contracts": {},
+	"contracts": {
+		"FungibleToken": {
+			"source": "./cadence/contracts/token/FungibleToken.cdc",
+			"aliases": {
+				"emulator": "0xee82856bf20e2aa6",
+				"testnet": "0x9a0766d93b6608b7"
+			}
+		},
+		"FUSD": {
+			"source": "./cadence/contracts/token/FUSD.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7",
+				"testnet": "0xe223d8a629e49c68"
+			}
+		},
+		"FlowToken": {
+			"source": "./cadence/contracts/token/FlowToken.cdc",
+			"aliases": {
+				"emulator": "0x0ae53cb6e3f42a79",
+				"testnet": "0x7e60df042a9c0868"
+			}
+		},
+		"FlowFusdSwapPair": "./cadence/contracts/exchange/FlowFusdSwapPair.cdc"
+	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
 		"mainnet": "access.mainnet.nodes.onflow.org:9000",
@@ -14,8 +37,23 @@
 	"accounts": {
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
-			"key": "ece21225229f5280a0e6492f466916fa6567f55d79e47ec623521b3efb55cef0"
+			"key": "c90a576ee068b97188cb1df094e82a5e22b38921b0dad33b2af8dbf02902e187"
+		},
+		"testnet-account": {
+			"address": "0x09a86cbc8de7314a",
+			"key": "fe15165a9f8124df97090f16c6f167e6824c925ae23c00aa3b0e7adf2e52fd59"
 		}
 	},
-	"deployments": {}
+	"deployments": {
+		"emulator": {
+			"emulator-account": [
+				"FUSD"
+			]
+		},
+		"testnet": {
+			"testnet-account": [
+				"FlowFusdSwapPair"
+			]
+		}
+	}
 }
