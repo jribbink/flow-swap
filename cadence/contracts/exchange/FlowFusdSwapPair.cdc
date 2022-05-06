@@ -2,9 +2,9 @@ import FungibleToken from "../token/FungibleToken.cdc"
 import FlowToken from "../token/FlowToken.cdc"
 import FUSD from "../token/FUSD.cdc"
 
-// Exchange pair between FUSD and TeleportedTetherToken
-// Token1: FUSD
-// Token2: TeleportedTetherToken
+// Exchange pair between FlowToken and FUSD
+// Token1: FlowToken
+// Token2: FUSD
 pub contract FlowFusdSwapPair: FungibleToken {
   // Frozen flag controlled by Admin
   pub var isFrozen: Bool
@@ -12,10 +12,10 @@ pub contract FlowFusdSwapPair: FungibleToken {
   // Total supply of FlowFusdSwapPair liquidity token in existence
   pub var totalSupply: UFix64
 
-  // Controls FUSD vault
+  // Controls FlowToken vault
   access(contract) let token1Vault: @FlowToken.Vault
 
-  // Controls TeleportedTetherToken vault
+  // Controls FUSD vault
   access(contract) let token2Vault: @FUSD.Vault
 
   // Defines token vault storage path
