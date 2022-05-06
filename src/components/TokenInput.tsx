@@ -34,7 +34,11 @@ export default ({
     // sync value string with numerical amount
     useEffect(() => {
         if((parseFloat(value) || 0) != amount) {
-            setValue((amount ?? 0).toString())
+            if (amount) {
+                setValue(amount.toString())
+            } else {
+                setValue("")
+            }
         }
     }, [amount])
 

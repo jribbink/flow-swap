@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    network: 'testnet'
+    network: 'local'
   },
   async redirects() {
     return [

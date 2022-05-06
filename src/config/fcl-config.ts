@@ -24,8 +24,10 @@ export const fclConfig = {
             "debug.accounts": true,
             "logger.level": 2,
             "accessNode.api": "http://localhost:8888",
-            "discovery.wallet": "http://localhost:8701/fssscl/authn",
+            "discovery.wallet": "http://localhost:8701/fcl/authn",
             "discovery.wallet.method.default": "IFRAME/RPC",
+            "0xFungibleToken": "0xee82856bf20e2aa6",
+            "0xFUSD": "0xf8d6e0586b0a20c7",
            // "fcl.accountProof.resolver": resolver
         }
     }

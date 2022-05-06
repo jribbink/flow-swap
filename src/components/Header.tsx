@@ -17,11 +17,15 @@ export default (props: HeaderProps) => {
     return (
         <div className="d-flex justify-content-between p-3 w-100" style={headerStyles}>
             <div className="col">
-                <Image  src={KittyImage} height="58" width="58"></Image>
+                <div className="d-flex justify-content-start">
+                    <Image src={KittyImage} height="58" width="58"></Image>
+                </div>
             </div>
             <NavigationMenu></NavigationMenu>
-            <div className="align-self-center col text-end">
+            <div className="align-self-center col">
+                <div className="d-flex justify-content-end">
                 { user.loggedIn ? <UserMenu user={user} /> : <ConnectWalletButton /> }
+                </div>
             </div>
         </div>
     )
