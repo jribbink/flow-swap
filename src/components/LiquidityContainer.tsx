@@ -21,7 +21,7 @@ export default () => {
     } else {
         return (
             <div className="mx-auto" style={{maxWidth: '500px'}}>
-                <div className="d-flex flex-row align-items-end">
+                <div className="d-flex flex-row align-items-end px-2">
                     <span className="fw-bold">Your Liquidity</span>
                     <Link href={"/pool/add"}>
                         <button className="btn btn-success border-0 py-1 px-2 ms-auto">Add +</button>

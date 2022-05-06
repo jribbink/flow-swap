@@ -16,7 +16,7 @@ export default ({children}: LayoutProps) => {
     return (
         <div className="bg-success bg-opacity-25 d-flex flex-column" style={overflowStyle}>
             <Header />
-            <main className="container py-4 flex-grow-1">{children}</main>
+            <main className="container p-4 flex-grow-1">{children}</main>
             <Footer></Footer>
         </div>
     )

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "emulator": "concurrently 'flow emulator --contracts' 'sleep 5 && flow project deploy --network=emulator' 'flow dev-wallet'"
+    "emulator": "concurrently 'flow emulator --contracts' 'sleep 5 && flow project deploy --network=emulator' 'npm run dev-wallet'",
+    "dev-wallet": "npm run --prefix ../fcl-dev-wallet/ dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",

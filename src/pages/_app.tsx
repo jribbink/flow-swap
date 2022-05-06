@@ -5,6 +5,7 @@ import useConfig from 'hooks/use-fcl-config'
 import Layout from "components/Layout"
 import { useEffect } from "react"
 
+// @ts-ignore
 import * as fcl from '@onflow/fcl'
 
 function KittyApp({ Component, pageProps }: AppProps) {

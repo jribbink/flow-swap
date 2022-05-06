@@ -1,7 +1,7 @@
-import FungibleToken from 0xFUNGIBLETOKENADDRESS
-import FlowToken from 0xFLOWTOKENADDRESS
-import FUSD from 0xFUSDADDRESS
-import FlowFusdSwapPair from 0xFLOWFUSDSWAPPAIRADDRESS
+import FungibleToken from 0xFungibleToken
+import FlowToken from 0xFlowToken
+import FUSD from 0xFUSD
+import FlowFusdSwapPair from 0xFlowFusdSwapPair
 
 transaction(token1Amount: UFix64, token2Amount: UFix64) {
   // The Vault references that holds the tokens that are being transferred

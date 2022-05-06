@@ -47,7 +47,7 @@
 	"deployments": {
 		"emulator": {
 			"emulator-account": [
-				"FUSD"
+				"FlowFusdSwapPair"
 			]
 		},
 		"testnet": {
