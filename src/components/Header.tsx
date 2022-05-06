@@ -4,6 +4,8 @@ import ConnectWalletButton from "./ConnectWalletButton";
 import UserMenu from "./UserMenu";
 import useCurrentUser from "hooks/use-current-user";
 import NavigationMenu from "./NavigationMenu";
+import useWindowSize from "hooks/use-window-size";
+import Breakpoint from "./Breakpoint";
 
 type HeaderProps = {}
 
@@ -12,7 +14,8 @@ const headerStyles = {
 }
 
 export default (props: HeaderProps) => {
-    const user: any = useCurrentUser()
+    const user = useCurrentUser()
+    const windowSize = useWindowSize()
 
     return (
         <div className="d-flex justify-content-between p-3 w-100" style={headerStyles}>
@@ -21,7 +24,9 @@ export default (props: HeaderProps) => {
                     <Image src={KittyImage} height="58" width="58"></Image>
                 </div>
             </div>
-            <NavigationMenu></NavigationMenu>
+            <Breakpoint show="md">
+                <NavigationMenu></NavigationMenu>
+            </Breakpoint>
             <div className="align-self-center col">
                 <div className="d-flex justify-content-end">
                 { user.loggedIn ? <UserMenu user={user} /> : <ConnectWalletButton /> }
