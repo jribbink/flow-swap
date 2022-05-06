@@ -1,7 +1,7 @@
 import "styles/styles.css"
 import 'bootstrap/dist/css/bootstrap.css'
 import type { AppProps } from 'next/app'
-import useConfig from 'hooks/use-fcl-config'
+import useFclConfig from 'hooks/use-fcl-config'
 import Layout from "components/Layout"
 import { useEffect } from "react"
 
@@ -9,11 +9,10 @@ import { useEffect } from "react"
 import * as fcl from '@onflow/fcl'
 
 function KittyApp({ Component, pageProps }: AppProps) {
-  useConfig()
-
-  useEffect(() => {
-    (window as any)['fcl'] = fcl
-  }, [])
+  // Config fcl
+  useFclConfig()
+  // Export fcl to console
+  useEffect(() => {(window as any).fcl = fcl}, [])
 
   return (
     <Layout>

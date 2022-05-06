@@ -37,6 +37,7 @@ export default ({
                 {
                     tokens.map(token => (
                         <button
+                            key={token.ticker}
                             disabled={ token.ticker == currentToken?.ticker }
                             className="list-group-item list-group-item-action hover-dark border-0 px-4 py-3 d-flex align-items-center listgroup-disabled-50"
                             style={

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import AddLiquidityHeader from './AddLiquidityHeader'
 import TokenInput from './TokenInput'
-import { tokenConfig } from 'config/token-config'
+import config from 'config'
 import { useState } from 'react'
 import { Token } from 'models/token'
 
@@ -19,14 +19,14 @@ export default () => {
             <AddLiquidityHeader></AddLiquidityHeader>
             <TokenInput
                 label='Input'
-                tokens={tokenConfig.tokens}
+                tokens={config.tokens}
                 token={tokenA}
                 amount={amountA}
                 onChangeToken={setTokenA}
             ></TokenInput>
             <TokenInput
                 label='Input'
-                tokens={tokenConfig.tokens}
+                tokens={config.tokens}
                 token={tokenB}
                 amount={amountB}
                 onChangeToken={setTokenB}

@@ -1,9 +1,16 @@
 import { StaticImageData } from "next/image"
 
-export interface Token {
-    ticker: string
-    contractAddress: string
-    path: string
-    image: StaticImageData | string
-    poolAmount: number
+export class Token {
+    name!: String
+    displayName!: String
+    ticker!: string
+    address!: string
+    vaultPath!: String
+    receiverPath!: String
+    balancePath!: String
+    image!: StaticImageData | string
+
+    constructor(data: NonOptional<Token>) {
+        Object.assign(this, data)
+    }
 }

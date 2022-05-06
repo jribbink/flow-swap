@@ -1,4 +1,4 @@
-import { tokenConfig } from "config/token-config"
+import config from "config"
 import useCurrentUser from "hooks/use-current-user"
 import { Currency } from "models/currency"
 import { Token } from "models/token"
@@ -12,8 +12,8 @@ function round (value: number, precision: number) {
 }
 
 export default () => {
-    const tokens = tokenConfig.tokens
-    const defaultTokenFrom = tokenConfig.tokens[0]
+    const tokens = config.tokens
+    const defaultTokenFrom = config.tokens[0]
 
     const [disabledText, setDisabledText] = useState<string | null>("Select a token")
     const [availableTokens, setAvailableTokens] = useState(tokens)
@@ -57,7 +57,7 @@ export default () => {
             tokenChangedRef.current = true
         }
 
-        console.log("update")
+        return
 
         let ratio = 0
         if(otherToken?.poolAmount && changedToken?.poolAmount)
@@ -89,7 +89,7 @@ export default () => {
             <TokenInput
                 label="From"
                 availableTokens={availableTokens}
-                tokens={tokenConfig.tokens}
+                tokens={config.tokens}
                 amount={amountFrom}
                 token={tokenFrom}
                 onChangeAmount={newAmount => setAmountFrom(newAmount)}
@@ -98,7 +98,7 @@ export default () => {
             <TokenInput
                 label="To"
                 availableTokens={availableTokens}
-                tokens={tokenConfig.tokens}
+                tokens={config.tokens}
                 amount={amountTo}
                 token={tokenTo}
                 onChangeAmount={newAmount => setAmountTo(newAmount)}
