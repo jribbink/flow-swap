@@ -1,13 +1,10 @@
 // @ts-ignore
 import * as fcl from '@onflow/fcl'
-import { fclConfig } from 'config/fcl-config'
+import config from 'config'
 import { useEffect } from 'react'
 
-export default function useConfig() {
+export default function useFclConfig() {
     useEffect(() => {
-        fcl.config({
-            ...fclConfig.baseConfig,
-            ...(process.env.network ? (fclConfig.networks as any)[process.env.network] : {})
-        })
-    }, [])
+        fcl.config(config.fcl), []
+    })
 }

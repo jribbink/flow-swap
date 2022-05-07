@@ -1,64 +1,69 @@
 // @ts-ignore
 import * as fcl from "@onflow/fcl"
+import config from "config"
 import { Token } from "models/token"
 import { useEffect, useState } from "react"
 import swr, {mutate} from "swr"
 
-const PATH = "/public/flowTokenBalance"
-const TICKER = "FLOW"
-const FN_NAME = "useFlowBalance"
-const ZERO = "0.00000000"
+const KEY = '/balances'
 
-function key(address: any) {
-  address = fcl.withPrefix(address)
-  return `/${TICKER}/${address}/balance`
-}
+/**
+ * 
+ * @param token Token object or token ticker
+ * @param addr Address of user whose balance is to be queried
+ * @returns 
+ */
+export function useBalance(token: Token | string, addr: any): number{
+    const address = fcl.withPrefix(addr)
 
-export function refetch(address: any) {
-  mutate(key(address))
-}
+    useEffect(() => {
+        mutate(KEY)
+    }, [addr])
 
-export function useBalance(token: Token | undefined, address: any) {
-    const [balance, setBalance] = useState(0)
-    const b = getBalance()
+    const {data, error} = swr(KEY, async () => {
+        if (!address) return []
+        await new Promise(r => setTimeout(r, 1))
 
-    function getBalance() {
-        address = fcl.withPrefix(address)
+        const tokens = config.tokens
 
-        const {data, error} = swr(token, async () => {
-          if (address == null) return `${ZERO} ${TICKER}`
-      
-          await new Promise(r => setTimeout(r, 1))
-          return fcl
-            .query({
-              args: (arg: any, t: any) => [arg(address, t.Address)],
-              cadence: `
-                import FungibleToken from 0xFungibleToken
-                pub fun main(addr: Address): UFix64 {
-                  let cap = getAccount(addr)
-                    .getCapability<&{FungibleToken.Balance}>(${token?.path})
-                  if let moneys = cap.borrow() {
-                    return moneys.balance
-                  } else {
-                    return UFix64(0.0)
-                  }
+        const cadence = `
+            import FungibleToken from 0xFungibleToken
+            ${
+                tokens.map(token => `import ${token.name} from ${token.address}`).join("\n")
+            }
+
+            pub fun main(addr: Address): [UFix64] {
+                let account = getAccount(addr)
+
+                ${
+                    tokens.map((token, i) => `
+                        let tokenRef${i} = account.getCapability(${token.balancePath}).borrow<&${token.name}.Vault{FungibleToken.Balance}>()
+                        let tokenBalance${i} = tokenRef${i} == nil ? 0.0 : tokenRef${i}!.balance
+                    `).join("\n")
                 }
-              `,
-            })
-            .catch((error: any) => {
-              console.error(`-- ${FN_NAME}(${address}) --`, error)
-              return ZERO
-            })
-            .then((d: any) => `${d} ${TICKER}`)
-        })
-      
-        if (error != null) {
-          console.error(`-- FATAL -- ${FN_NAME}(${address}) --`, error)
-          return `${ZERO} ${TICKER}`
-        }
-      
-        return data
-    }
 
-    return b
+                return [${
+                    tokens.map((token, i) => `tokenBalance${i}`).join(", ")
+                }]
+            }
+        `
+
+        const balanceArray: number[] = await fcl.query({
+            args: (arg: any, t: any) => [arg(address, t.Address)],
+            cadence,
+        })
+
+        return balanceArray.map((val, i) => ({
+            token: tokens[i],
+            balance: val
+        }))
+    })
+    
+    return (data ?? []).find(b => {
+        if (typeof token == "string") {
+            return b.token.ticker == token
+        } else {
+            return b.token.ticker == token?.ticker
+        }
+    })?.balance ?? 0
 }

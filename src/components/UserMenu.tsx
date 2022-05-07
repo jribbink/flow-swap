@@ -1,18 +1,19 @@
 // @ts-ignore
 import * as fcl from '@onflow/fcl'
-import { useFlowBalance } from "hooks/use-flow-balance"
+import { useBalance } from "hooks/use-balance"
 import FlowImage from 'assets/coins/FLOW.png'
 import Image from "next/image"
 import styles from "styles/header.module.css"
 import { MouseEventHandler, useState } from "react"
 import AccountInfoModal from './AccountInfoModal'
+import config from 'config'
 
 type UserInfoProps = {
     user: any
 }
 
 export default ({user}: UserInfoProps) => {
-    const balance = useFlowBalance(user.addr)
+    const balance = useBalance("FLOW", user.addr)
     const [showAccountInfo, setShowAccountInfo] = useState(() => false)
 
     const logout: MouseEventHandler<HTMLAnchorElement> = evt => {

@@ -3,7 +3,7 @@ import { MouseEventHandler, useEffect, useState } from "react"
 import FlowImage from 'assets/coins/FLOW.png'
 import styles from "styles/header.module.css"
 import useCurrentUser from "hooks/use-current-user"
-import { useFlowBalance } from "hooks/use-flow-balance"
+import { useBalance } from "hooks/use-balance"
 import Image from "next/image"
 import TokenSelectModal from "./TokenSelectModal"
 
@@ -23,7 +23,7 @@ export default ({onChange, onClick, value: token, showBalance = false, tokens, a
     const [showModal, setShowModal] = useState(false)
 
     const user = useCurrentUser()
-    const balance = useFlowBalance(user.addr)
+    const balance = useBalance("FLOW", user.addr)
 
     const getButtonClass = () => {
         let classes = "btn p-2 rounded-pill shadow d-flex flex-row align-items-center "
