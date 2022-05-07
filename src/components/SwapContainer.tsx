@@ -1,15 +1,9 @@
 import config from "config"
 import useCurrentUser from "hooks/use-current-user"
-import { Currency } from "models/currency"
 import { Token } from "models/token"
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
-import ConnectWalletButton from "./ConnectWalletButton"
-import SwapButton from "./SwapButton"
+import TransactionButton from "./TransactionButton"
 import TokenInput from "./TokenInput"
-
-function round (value: number, precision: number) {
-    return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision)
-}
 
 export default () => {
     const tokens = config.tokens
@@ -23,9 +17,6 @@ export default () => {
     const [tokenTo, setTokenTo] = useState<Token | undefined>()
 
     const user = useCurrentUser()
-
-    const buttonClassName = "w-100 p-3 rounded-4"
-    const buttonStyles = {fontSize: '20px'}
 
     useEffect(function updateAvailableTokens() {
         setAvailableTokens(tokens.filter(token =>
@@ -104,7 +95,7 @@ export default () => {
                 onChangeAmount={newAmount => setAmountTo(newAmount)}
                 onChangeToken={onChangeTokenTo}
             ></TokenInput>
-            <SwapButton className={buttonClassName} styles={buttonStyles} disabledText={disabledText}></SwapButton>
+            <TransactionButton text="Swap" disabledText={disabledText}></TransactionButton>
         </div>
     )
 }

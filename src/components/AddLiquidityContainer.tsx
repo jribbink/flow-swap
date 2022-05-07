@@ -6,6 +6,8 @@ import config from 'config'
 import { useEffect, useState } from 'react'
 import { Token } from 'models/token'
 import { useRouter } from 'next/router'
+import AddLiquidityShareInfo from './AddLiquidityShareInfo'
+import TransactionButton from './TransactionButton'
 
 
 export default () => {
@@ -31,6 +33,10 @@ export default () => {
     const [amountA, setAmountA] = useState<number>()
     const [amountB, setAmountB] = useState<number>()
 
+    const getDisabledText = () => {
+        return null
+    }
+
     return (
         <div className="mx-auto bg-white rounded-4 p-4" style={{maxWidth: '400px'}}>
             <AddLiquidityHeader></AddLiquidityHeader>
@@ -48,6 +54,14 @@ export default () => {
                 amount={amountB}
                 onChangeToken={setTokenB}
             ></TokenInput>
+            <div className="my-4">
+                {
+                    tokenA && tokenB
+                        ? <AddLiquidityShareInfo tokenA={tokenA} tokenB={tokenB}></AddLiquidityShareInfo>
+                        : null
+                }
+            </div>
+            <TransactionButton text="Supply" disabledText={getDisabledText()}></TransactionButton>
         </div>
     )
 }

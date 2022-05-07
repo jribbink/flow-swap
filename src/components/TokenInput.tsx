@@ -60,7 +60,7 @@ export default ({
     }
 
     return (
-        <div className="border rounded p-2 my-4 d-flex flex-column" style={{'backgroundColor': 'rgb(247, 248, 250)'}} onClick={inputClick}>
+        <div className="border bg-light rounded p-2 my-4 d-flex flex-column" onClick={inputClick}>
             <div className="d-flex flex-row align-content-center">
                 <div>{label}</div>
                 {

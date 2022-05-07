@@ -25,7 +25,7 @@ export default ({}: AccountMenuProps) => {
         return address.substring(0,6) + "..." + address.substring(address.length - 4)
     }
 
-    if (!user.addr) return
+    if (!user.addr) return null
 
     return (
         <div className="d-flex bg-white rounded-4">

@@ -5,29 +5,37 @@ import { Button } from "react-bootstrap"
 import ConnectWalletButton from "./ConnectWalletButton"
 
 type SwapButtonProps = {
+    text: string,
     className?: string
     styles?: React.CSSProperties,
     disabledText?: string | null
 }
 
-export default ({className, styles, disabledText = null}: SwapButtonProps) => {
+export default ({text, className, styles, disabledText = null}: SwapButtonProps) => {
     const user = useCurrentUser()
+
+    const buttonStyles = {
+        ...styles,
+        fontSize: '20px'
+    }
+
+    const buttonClasses = "w-100 p-3 rounded-4 " + className
 
     if (user.loggedIn) {
         return (
             <Button
-                style={styles}
-                className={className + " text-uppercase " + (disabledText ? "border-0 bg-secondary bg-opacity-25" : "")}
+                style={buttonStyles}
+                className={buttonClasses + " text-uppercase " + (disabledText ? "border-0 bg-secondary bg-opacity-25" : "")}
                 variant={disabledText ? "secondary" : "primary"}
                 disabled={!!disabledText}
                 onClick={fcl.logIn}
             >
-                {disabledText ?? 'Swap'}
+                {disabledText ?? text}
             </Button>
         )
     } else {
         return (
-            <ConnectWalletButton className={className} styles={styles}></ConnectWalletButton>
+            <ConnectWalletButton className={buttonClasses} styles={buttonStyles}></ConnectWalletButton>
         )
     }
 }
