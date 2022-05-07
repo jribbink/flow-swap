@@ -2,6 +2,7 @@
  * @description Deep merge config.network.ts with config.base.ts
  */
 
+import { SwapPair } from 'models/swap-pair'
 import { Token } from 'models/token'
 import { mergeDeep } from 'util/util'
 
@@ -13,7 +14,8 @@ if (!network) {
 
 interface Config {
     fcl: any,
-    tokens: Token[]
+    tokens: Token[],
+    pairs: SwapPair[]
 }
 
 const config = <Config>mergeDeep({}, require('./config.base').default, require(`./config.${network}.ts`).default)

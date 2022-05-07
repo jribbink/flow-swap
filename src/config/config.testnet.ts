@@ -13,7 +13,7 @@ export default {
         "0xFUSD": "0xe223d8a629e49c68",
     },
     tokens: <Token[]>[
-        {
+        new Token({
             name: "FlowToken",
             displayName: "Flow Token",
             ticker: 'FLOW',
@@ -22,8 +22,8 @@ export default {
             receiverPath: '/public/flowTokenReceiver',
             balancePath: '/public/flowTokenBalance',
             image: FLOWImage,
-        },
-        {
+        }),
+        new Token({
             name: 'FUSD',
             displayName: 'Flow USD',
             ticker: 'FUSD',
@@ -32,6 +32,7 @@ export default {
             receiverPath: '/public/fusdReceiver',
             balancePath: '/public/fusdBalance',
             image: FUSDImage
-        }
-    ]
+        })
+    ],
+    pairs: []
 }

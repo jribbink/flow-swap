@@ -1,8 +1,9 @@
 import { Token } from 'models/token'
+import { SwapPair } from 'models/swap-pair'
 import FLOWImage from 'assets/coins/FLOW.png'
 import FUSDImage from 'assets/coins/FUSD.png'
 
-export default {
+const config =  {
     fcl: {
         "env": "local",
         "debug.accounts": true,
@@ -16,7 +17,7 @@ export default {
         "0xFlowToken": "0x0ae53cb6e3f42a79"
     },
     tokens: <Token[]>[
-        {
+        new Token({
             name: "FlowToken",
             displayName: "Flow Token",
             ticker: 'FLOW',
@@ -25,8 +26,8 @@ export default {
             receiverPath: '/public/flowTokenReceiver',
             balancePath: '/public/flowTokenBalance',
             image: FLOWImage,
-        },
-        {
+        }),
+        new Token({
             name: 'FUSD',
             displayName: 'Flow USD',
             ticker: 'FUSD',
@@ -35,6 +36,17 @@ export default {
             receiverPath: '/public/fusdReceiver',
             balancePath: '/public/fusdBalance',
             image: FUSDImage
-        }
-    ]
+        })
+    ],
+    pairs: <SwapPair[]>[]
 }
+config.pairs = [
+    new SwapPair({
+        name: 'FlowFusdSwapPair',
+        tokenA: config.tokens.find(token => token.ticker == "FLOW")!,
+        tokenB: config.tokens.find(token => token.ticker == "FLOW")!,
+        address: "0xf8d6e0586b0a20c7"
+    })
+]
+
+export default config

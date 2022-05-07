@@ -29,7 +29,7 @@ export default ({
     // needs independent string input state in order to retain decimal places that would not be retained in floating point
     const [value, setValue] = useState<string>("")
     const user = useCurrentUser()
-    const balance = useBalance(token??"", user.addr)
+    const balance = useBalance(token ?? "", user.addr)
 
     // sync value string with numerical amount
     useEffect(() => {
@@ -64,7 +64,7 @@ export default ({
             <div className="d-flex flex-row align-content-center">
                 <div>{label}</div>
                 {
-                    user.loggedIn ? (
+                    user.loggedIn && token ? (
                         <div className="ms-auto" style={{opacity: 0.5, fontSize: '0.9em'}}>
                             {`Balance: ${balance}`}
                         </div>

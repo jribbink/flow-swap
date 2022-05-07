@@ -1,13 +1,13 @@
 import { StaticImageData } from "next/image"
 
 export class Token {
-    name!: String
-    displayName!: String
+    name!: string
+    displayName!: string
     ticker!: string
     address!: string
-    vaultPath!: String
-    receiverPath!: String
-    balancePath!: String
+    vaultPath!: string
+    receiverPath!: string
+    balancePath!: string
     image!: StaticImageData | string
 
     constructor(data: NonOptional<Token>) {

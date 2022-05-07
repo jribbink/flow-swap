@@ -1,69 +1,33 @@
 // @ts-ignore
 import * as fcl from "@onflow/fcl"
 import config from "config"
+import { SwapPair } from "models/swap-pair"
 import { Token } from "models/token"
 import { useEffect, useState } from "react"
 import swr, {mutate} from "swr"
-
-const KEY = '/balances'
+import { useAllBalances } from "./use-all-balances"
 
 /**
  * 
- * @param token Token object or token ticker
+ * @param token Token object, SwapPair object, token ticker, or SwapPair contract name
  * @param addr Address of user whose balance is to be queried
  * @returns 
  */
-export function useBalance(token: Token | string, addr: any): number{
-    const address = fcl.withPrefix(addr)
+export function useBalance(token: Token | SwapPair | string, addr: any): number {
+    const balances = useAllBalances(addr)
 
-    useEffect(() => {
-        mutate(KEY)
-    }, [addr])
-
-    const {data, error} = swr(KEY, async () => {
-        if (!address) return []
-        await new Promise(r => setTimeout(r, 1))
-
-        const tokens = config.tokens
-
-        const cadence = `
-            import FungibleToken from 0xFungibleToken
-            ${
-                tokens.map(token => `import ${token.name} from ${token.address}`).join("\n")
-            }
-
-            pub fun main(addr: Address): [UFix64] {
-                let account = getAccount(addr)
-
-                ${
-                    tokens.map((token, i) => `
-                        let tokenRef${i} = account.getCapability(${token.balancePath}).borrow<&${token.name}.Vault{FungibleToken.Balance}>()
-                        let tokenBalance${i} = tokenRef${i} == nil ? 0.0 : tokenRef${i}!.balance
-                    `).join("\n")
-                }
-
-                return [${
-                    tokens.map((token, i) => `tokenBalance${i}`).join(", ")
-                }]
-            }
-        `
-
-        const balanceArray: number[] = await fcl.query({
-            args: (arg: any, t: any) => [arg(address, t.Address)],
-            cadence,
-        })
-
-        return balanceArray.map((val, i) => ({
-            token: tokens[i],
-            balance: val
-        }))
-    })
-    
-    return (data ?? []).find(b => {
-        if (typeof token == "string") {
-            return b.token.ticker == token
-        } else {
-            return b.token.ticker == token?.ticker
-        }
-    })?.balance ?? 0
+    if (!balances) {
+        return 0
+    } else if (typeof token == "string") {
+        return (
+            balances!.pairs.find(pair => pair.pair.name == token)?.balance
+            ?? balances!.tokens.find(t => t.token.ticker == token)?.balance
+            ?? 0
+        )
+    } else if (token instanceof SwapPair) {
+        return balances!.pairs.find(pair => pair.pair.name == token.name)?.balance ?? 0
+    } else if (token instanceof Token) {
+        return balances!.tokens.find(t => t.token.ticker == token.ticker)?.balance ?? 0
+    }
+    return 0
 }
