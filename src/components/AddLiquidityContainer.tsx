@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 
 export default () => {
     const router = useRouter()
-    if ((router.query.params?.length ?? 0) > 2) router.push('/pool/add')
+    if ((router.query.params?.length ?? 0) > 2) router.replace('/pool/add')
 
 
     const [tokenA, tokenB] = (router.query.params as string[] ?? []).map(tokenUri => {

@@ -104,13 +104,7 @@ export default () => {
                 onChangeAmount={newAmount => setAmountTo(newAmount)}
                 onChangeToken={onChangeTokenTo}
             ></TokenInput>
-            {
-                !user.loggedIn
-                ? 
-                    <ConnectWalletButton className={buttonClassName} styles={buttonStyles}></ConnectWalletButton>
-                :
-                    <SwapButton className={buttonClassName} styles={buttonStyles} disabledText={disabledText}></SwapButton>
-            }
+            <SwapButton className={buttonClassName} styles={buttonStyles} disabledText={disabledText}></SwapButton>
         </div>
     )
 }

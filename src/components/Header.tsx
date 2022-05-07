@@ -1,7 +1,7 @@
 import Image from "next/image";
 import KittyImage from "assets/kitty-eth.svg"
 import ConnectWalletButton from "./ConnectWalletButton";
-import UserMenu from "./UserMenu";
+import AccountMenu from "./AccountMenu";
 import useCurrentUser from "hooks/use-current-user";
 import NavigationMenu from "./NavigationMenu";
 import useWindowSize from "hooks/use-window-size";
@@ -29,7 +29,7 @@ export default (props: HeaderProps) => {
             </Breakpoint>
             <div className="align-self-center col">
                 <div className="d-flex justify-content-end">
-                { user.loggedIn ? <UserMenu user={user} /> : <ConnectWalletButton /> }
+                { user.loggedIn ? <AccountMenu /> : <ConnectWalletButton /> }
                 </div>
             </div>
         </div>
