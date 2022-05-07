@@ -6,12 +6,12 @@ import TransactionButton from "./TransactionButton"
 import TokenInput from "./TokenInput"
 import usePoolAmounts from "hooks/use-pool-amounts"
 import { round } from "util/util"
+import { exchangeTokens } from "util/exchange-tokens"
 
 export default () => {
     const tokens = config.tokens
     const defaultTokenFrom = config.tokens[0]
 
-    const [disabledText, setDisabledText] = useState<string | null>("Select a token")
     const [availableTokens, setAvailableTokens] = useState(tokens)
     const [amountFrom, setAmountFrom] = useState(0)
     const [amountTo, setAmountTo] = useState(0)
@@ -27,11 +27,11 @@ export default () => {
         ))
     }, [tokenFrom, tokenTo])
 
-    useEffect(function updateSwapButtonStatus() {
-        if (!tokenTo || !tokenFrom) setDisabledText("Select a Token")
-        else if (!amountFrom) setDisabledText("Enter an amount")
-        else setDisabledText(null)
-    }, [tokenTo, tokenFrom, amountFrom])
+    function getButtonDisabledText() {
+        if (!tokenTo || !tokenFrom) return "Select a Token"
+        else if (!amountFrom || !amountTo) return "Enter an amount"
+        else return null
+    }
 
 
     // Ref that stores whether next token update should be ignored (prevent looping amount changes between to/from) 
@@ -73,6 +73,11 @@ export default () => {
         }
         setTokenTo(token)
     }
+
+    const onSwapClick = () => {
+        if (!tokenTo) return
+        exchangeTokens(tokenFrom, tokenTo, amountFrom)
+    }
     
     return (
         <div className="bg-white mx-auto rounded-4 p-4 shadow" style={{maxWidth: '400px'}}>
@@ -95,7 +100,7 @@ export default () => {
                 onChangeAmount={newAmount => setAmountTo(newAmount)}
                 onChangeToken={onChangeTokenTo}
             ></TokenInput>
-            <TransactionButton text="Swap" disabledText={disabledText}></TransactionButton>
+            <TransactionButton text="Swap" disabledText={getButtonDisabledText()} onClick={onSwapClick}></TransactionButton>
         </div>
     )
 }
