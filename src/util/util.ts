@@ -1,3 +1,7 @@
+import config from "config";
+import { SwapPair } from "models/swap-pair";
+import { Token } from "models/token";
+
 /**
  * Simple object check.
  * @param item
@@ -32,4 +36,13 @@ export function mergeDeep(target: any, ...sources: any[]): any {
 
 export function round (value: number, precision: number) {
   return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision)
+}
+
+export function findPair(tokenA?: Token, tokenB?: Token): SwapPair | undefined {
+  if(!tokenA || !tokenB) return undefined
+
+  return config.pairs.find(pair => 
+      (tokenA?.equals(pair.tokenA) && tokenB?.equals(pair.tokenB)) ||
+      (tokenA?.equals(pair.tokenB) && tokenB?.equals(pair.tokenA))
+  )
 }

@@ -15,7 +15,10 @@ if (!network) {
 interface Config {
     fcl: any,
     tokens: Token[],
-    pairs: SwapPair[]
+    pairs: SwapPair[],
+    clientOptions: {
+        slippage: number
+    }
 }
 
 const config = <Config>mergeDeep({}, require('./config.base').default, require(`./config.${network}.ts`).default)

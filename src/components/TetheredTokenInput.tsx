@@ -1,41 +1,52 @@
-import config from "config"
 import useCurrentUser from "hooks/use-current-user"
-import { Token } from "models/token"
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
-import TransactionButton from "./TransactionButton"
-import TokenInput from "./TokenInput"
 import usePoolAmounts from "hooks/use-pool-amounts"
+import { TokenAmount } from "models/token-amount"
+import { Token } from "models/token"
+import config from "config"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import { round } from "util/util"
+import TokenInput from "./TokenInput"
 
-export default () => {
+type TetheredTokenInputProps = {
+    onChange: (token: TokenAmount[]) => void,
+    value: TokenAmount[]
+}
+
+export default ({onChange, value = []}: TetheredTokenInputProps) => {
     const tokens = config.tokens
     const defaultTokenFrom = config.tokens[0]
 
-    const [disabledText, setDisabledText] = useState<string | null>("Select a token")
     const [availableTokens, setAvailableTokens] = useState(tokens)
     const [amountFrom, setAmountFrom] = useState(0)
     const [amountTo, setAmountTo] = useState(0)
-    const [tokenFrom, setTokenFrom] = useState(defaultTokenFrom)
+    const [tokenFrom, setTokenFrom] = useState<Token | undefined>(defaultTokenFrom)
     const [tokenTo, setTokenTo] = useState<Token | undefined>()
 
-    const user = useCurrentUser()
-    const poolAmounts = usePoolAmounts(user.addr, tokenFrom, tokenTo)
+    const skipEffectRef = useRef<boolean>(false)
+
+    useEffect(() => {
+        if (skipEffectRef.current) {
+            skipEffectRef.current = false
+            return
+        }
+        const [valA, valB] = value
+        setAmountFrom(valA?.amount)
+        setAmountTo(valB?.amount)
+        setTokenFrom(valA?.token)
+        setTokenTo(valB?.token)
+    }, [value])
 
     useEffect(function updateAvailableTokens() {
         setAvailableTokens(tokens.filter(token =>
-            token.ticker != tokenFrom.ticker && token.ticker != tokenTo?.ticker
+            token.ticker != tokenFrom?.ticker && token.ticker != tokenTo?.ticker
         ))
     }, [tokenFrom, tokenTo])
 
-    useEffect(function updateSwapButtonStatus() {
-        if (!tokenTo || !tokenFrom) setDisabledText("Select a Token")
-        else if (!amountFrom) setDisabledText("Enter an amount")
-        else setDisabledText(null)
-    }, [tokenTo, tokenFrom, amountFrom])
-
-
     // Ref that stores whether next token update should be ignored (prevent looping amount changes between to/from) 
     const tokenChangedRef = useRef<boolean>(false)
+
+    const user = useCurrentUser()
+    const poolAmounts = usePoolAmounts(user.addr, tokenFrom, tokenTo)
 
     function updateTokenAmounts(
         changedAmount: number,
@@ -60,6 +71,20 @@ export default () => {
     useEffect(() => updateTokenAmounts(amountFrom, setAmountTo, 'poolA', 'poolB'), [tokenTo, tokenFrom, amountFrom])
     useEffect(() => updateTokenAmounts(amountTo, setAmountFrom, 'poolB', 'poolA'), [amountTo])
 
+    useEffect(() => {
+        onChange([
+            {
+                token: tokenFrom,
+                amount: amountFrom
+            },
+            {
+                token: tokenTo,
+                amount: amountTo
+            }
+        ])
+        skipEffectRef.current = true
+    }, [tokenTo, tokenFrom, amountTo, amountFrom])
+
     const onChangeTokenFrom = (token: Token) => {
         if(token.ticker == tokenTo?.ticker) {
             setTokenTo(tokenFrom)
@@ -73,10 +98,9 @@ export default () => {
         }
         setTokenTo(token)
     }
-    
+
     return (
-        <div className="bg-white mx-auto rounded-4 p-4 shadow" style={{maxWidth: '400px'}}>
-            <div style={{'fontSize': '18px', 'fontWeight': '550'}}>Swap</div>
+        <div>
             <TokenInput
                 label="From"
                 availableTokens={availableTokens}
@@ -95,7 +119,6 @@ export default () => {
                 onChangeAmount={newAmount => setAmountTo(newAmount)}
                 onChangeToken={onChangeTokenTo}
             ></TokenInput>
-            <TransactionButton text="Swap" disabledText={disabledText}></TransactionButton>
         </div>
     )
 }

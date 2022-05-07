@@ -13,8 +13,10 @@ import { useAllBalances } from "./use-all-balances"
  * @param addr Address of user whose balance is to be queried
  * @returns 
  */
-export function useBalance(token: Token | SwapPair | string, addr: any): number {
+export function useBalance(token: Token | SwapPair | string | undefined, addr: any): number {
     const balances = useAllBalances(addr)
+
+    if (!token) return 0
 
     if (!balances) {
         return 0

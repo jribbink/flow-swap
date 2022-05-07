@@ -5,5 +5,8 @@ export default {
         "service.OpenID.scopes": "email"
     },
     tokens: [],
-    pairs: []
+    pairs: [],
+    clientOptions: {
+        slippage: 0.01
+    }
 }

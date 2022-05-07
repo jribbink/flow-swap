@@ -1,19 +1,27 @@
 // @ts-ignore
 import * as fcl from '@onflow/fcl'
+import config from 'config';
 import { SwapPair } from "models/swap-pair";
+import { Token } from 'models/token';
 import useSWR from "swr";
+import { findPair } from 'util/util';
 
-const key = (address: string) => {
-    return `/check-pool-amounts/${address}`
+const key = (address: string, tokenA?: Token, tokenB?: Token) => {
+    if (!tokenA || !tokenB) return null
+    const sorted = [tokenA.uri, tokenB.uri]
+    sorted.sort()
+    return `/check-pool-amounts/${address}/${sorted[0]}/${sorted[1]}`
 }
 
-export default (pair: SwapPair, address: string) => {
-    const {data, error} = useSWR(key(address), async () => {
-        if (!address) return null
+export default (address: string, tokenA?: Token, tokenB?: Token) => {
+    const pair = findPair(tokenA, tokenB)
+
+    const {data, error} = useSWR(key(address, tokenA, tokenB), async () => {
+        if (!address || !pair) return null
 
         const res = await fcl.query({
             cadence: `
-                import ${pair.name} from ${address}
+                import ${pair.name} from ${pair.address}
 
                 pub fun main(): [UFix64] {
                     let poolAmounts = ${pair.name}.getPoolAmounts()
@@ -25,9 +33,9 @@ export default (pair: SwapPair, address: string) => {
         })
 
         return {
-            poolA: res[0],
-            poolB: res[1],
-            totalSupply: res[3]
+            poolA: parseFloat(res[0]),
+            poolB: parseFloat(res[1]),
+            totalSupply: parseFloat(res[2])
         }
     })
 

@@ -14,7 +14,7 @@ export default () => {
                     </div>
                 </Link>
             </span>
-            <span>Add Liquidity</span>
+            <span style={{fontSize: "1.2em"}}>Add Liquidity</span>
             <span className="col"></span>
         </div>
     )

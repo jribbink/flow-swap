@@ -19,6 +19,10 @@ export class Token {
         return `A.${address}.${this.name}`
     }
 
+    equals (token: Token) {
+        return token.ticker == this.ticker
+    }
+
     static decodeFromUri (tokenUri: string) {
         const match = tokenUri.match(/^A.([0-9a-fA-F]+).([A-Za-z]+)/)
         return {
