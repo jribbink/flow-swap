@@ -2,7 +2,7 @@ import { WindowSize } from "models/window-size"
 import { useEffect, useState } from "react"
 
 export default () => {
-    const [windowSize, setWindowSize] = useState<WindowSize>({width: 0, height: 0})
+    const [windowSize, setWindowSize] = useState<WindowSize>()
 
     useEffect(() => {
         const updateWindowSize = () => {

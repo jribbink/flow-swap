@@ -19,6 +19,8 @@ type BreakpointProps = {
 export default ({children, show, hide}: BreakpointProps) => {
     const windowSize = useWindowSize()
 
+    if (!windowSize) return null
+
     if (!show || windowSize.width > BootstrapBreakpoint[show]) {
         if (!hide || windowSize.width < BootstrapBreakpoint[hide]) {
             return <>{children}</>

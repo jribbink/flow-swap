@@ -3,13 +3,30 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import AddLiquidityHeader from './AddLiquidityHeader'
 import TokenInput from './TokenInput'
 import config from 'config'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Token } from 'models/token'
+import { useRouter } from 'next/router'
 
 
 export default () => {
-    const [tokenA, setTokenA] = useState<Token>()
-    const [tokenB, setTokenB] = useState<Token>()
+    const router = useRouter()
+    if ((router.query.params?.length ?? 0) > 2) router.push('/pool/add')
+
+
+    const [tokenA, tokenB] = (router.query.params as string[] ?? []).map(tokenUri => {
+        const info = Token.decodeFromUri((tokenUri ?? "") as string)
+        return config.tokens.find(token =>
+            token.address == info.address && token.name == info.contract
+        )
+    })
+
+    const setTokenA = (token: Token) => {
+        router.push(Token.generateAddLiquidityUrl(token, tokenB))
+    }
+
+    const setTokenB = (token: Token) => {
+        router.push(Token.generateAddLiquidityUrl(tokenA, token))
+    }
 
     const [amountA, setAmountA] = useState<number>()
     const [amountB, setAmountB] = useState<number>()
