@@ -10,7 +10,7 @@ export default () => {
     return (
         <div className="mx-auto" style={{maxWidth: '500px'}}>
             <div className="d-flex flex-row align-items-end px-2">
-                <span className="fw-bold">Your Liquidity</span>
+                <span className="fw-bold">Your Liquidity Positions</span>
                 <Link href={addLiquidityUrl}>
                     <button className="btn btn-success shadow-none py-1 px-2 ms-auto">Add +</button>
                 </Link>

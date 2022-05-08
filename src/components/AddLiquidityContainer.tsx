@@ -9,7 +9,6 @@ import { useRouter } from 'next/router'
 import AddLiquidityShareInfo from './AddLiquidityShareInfo'
 import TransactionButton from './TransactionButton'
 import usePoolAmounts from 'hooks/use-pool-amounts'
-import { SwapPair } from 'models/swap-pair'
 import useCurrentUser from 'hooks/use-current-user'
 import { addLiquidity } from 'util/add-liquidity'
 import { findPair, round } from 'util/util'
@@ -39,7 +38,7 @@ export default () => {
     const [amountB, setAmountB] = useState<number>(0)
 
     const user = useCurrentUser()
-    const poolAmounts = usePoolAmounts(user.addr, tokenA, tokenB)
+    const poolAmounts = usePoolAmounts(tokenA, tokenB)
 
     const handleSupplyClick: MouseEventHandler = e => {
         const pair = findPair(tokenA, tokenB)

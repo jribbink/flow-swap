@@ -13,12 +13,12 @@ type AddLiquidityShareInfoProps = {
 
 export default ({tokenA, tokenB, amountA}: AddLiquidityShareInfoProps) => {
     const user = useCurrentUser()
-    const poolAmounts = usePoolAmounts(user.addr, tokenA, tokenB)
+    const poolAmounts = usePoolAmounts(tokenA, tokenB)
 
     const priceBPerA = poolAmounts?.poolA / poolAmounts?.poolB
     const priceAPerB = 1/priceBPerA
     const poolSharePercent = (amountA / (amountA + poolAmounts?.poolA)) * 100
-    const poolShareDescriptor = (poolSharePercent > 0.01) ? poolSharePercent.toFixed(2) : "<0.01%"
+    const poolShareDescriptor = (poolSharePercent > 0.01) ? poolSharePercent.toFixed(2) + "%" : "<0.01%"
     console.log(poolAmounts, amountA, (amountA + poolAmounts?.poolA))
 
     const labelBPerA = tokenB.ticker + " per " + tokenA.ticker

@@ -1,5 +1,6 @@
 import config from "config"
 import useCurrentUser from "hooks/use-current-user"
+import useLiquidityPositions from "hooks/use-liquidity-positions"
 import { LiquidityPosition } from "models/liquidity-position"
 import { Token } from "models/token"
 import Link from "next/link"
@@ -10,7 +11,7 @@ import LiquidityPositionItem from "./LiquidityPositionItem"
 type LiquidityPositionListProps = {}
 
 export default ({}: LiquidityPositionListProps) => {
-    const liquidityPositions: LiquidityPosition[] = []
+    const liquidityPositions = useLiquidityPositions()
     const user = useCurrentUser()
     const router = useRouter()
 
@@ -32,7 +33,7 @@ export default ({}: LiquidityPositionListProps) => {
         return (
         <>
             {liquidityPositions.map(position => (
-                <LiquidityPositionItem position={position} />
+                <LiquidityPositionItem key={position.pair?.tokenA + '/' + position.pair?.tokenB} position={position} />
             ))}
         </>
         )

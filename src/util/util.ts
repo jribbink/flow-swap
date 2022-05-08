@@ -46,3 +46,7 @@ export function findPair(tokenA?: Token, tokenB?: Token): SwapPair | undefined {
       (tokenA?.equals(pair.tokenB) && tokenB?.equals(pair.tokenA))
   )
 }
+
+export function numberToPercent(value: number) {
+  return `${value > 0.01 ? round(value, 2).toFixed(2) : '<0.01'}%`
+}

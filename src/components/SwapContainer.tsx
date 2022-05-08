@@ -19,7 +19,7 @@ export default () => {
     const [tokenTo, setTokenTo] = useState<Token | undefined>()
 
     const user = useCurrentUser()
-    const poolAmounts = usePoolAmounts(user.addr, tokenFrom, tokenTo)
+    const poolAmounts = usePoolAmounts(tokenFrom, tokenTo)
 
     useEffect(function updateAvailableTokens() {
         setAvailableTokens(tokens.filter(token =>
