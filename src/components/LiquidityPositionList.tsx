@@ -20,7 +20,7 @@ export default ({}: LiquidityPositionListProps) => {
         e.preventDefault()
     }
 
-    const addLiquidityUrl = Token.generateAddLiquidityUrl(config.pairs[0].tokenA, config.pairs[0].tokenB)
+    const addLiquidityUrl = config.pairs[0].generateAddLiquidityUrl()
 
     if(user.loggedIn) {
         if (liquidityPositions.length == 0) {

@@ -1,5 +1,6 @@
 import { LiquidityPosition } from "models/liquidity-position"
 import Image from "next/image"
+import Link from "next/link"
 import { useState } from "react"
 import { numberToPercent } from "util/util"
 
@@ -35,6 +36,14 @@ export default ({position: {
                     <LiquidityInfoItem label={`Pooled ${pair.tokenA.ticker}:`}>{poolA}</LiquidityInfoItem>
                     <LiquidityInfoItem label={`Pooled ${pair.tokenB.ticker}:`}>{poolB}</LiquidityInfoItem>
                     <LiquidityInfoItem label="Your pool share:">{numberToPercent(share)}</LiquidityInfoItem>
+                    <div className="d-flex flex-row mt-3" style={{gap: '15px'}}>
+                        <Link href={pair.generateAddLiquidityUrl()}>
+                            <div className="btn btn-success col shadow-none" style={{borderRadius: '10px'}}>Add</div>
+                        </Link>
+                        <Link href="">
+                            <div onClick={() => {alert("Feature not available yet")}} className="btn btn-success col shadow-none" style={{borderRadius: '10px'}}>Remove</div>
+                        </Link>
+                    </div>
                 </div>
             </>) : null }
         </div>

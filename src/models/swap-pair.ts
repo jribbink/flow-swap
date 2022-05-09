@@ -9,4 +9,8 @@ export class SwapPair {
     constructor(data: NonOptional<SwapPair>) {
         Object.assign(this, data)
     }
+
+    generateAddLiquidityUrl() {
+        return Token.generateAddLiquidityUrl(this.tokenA, this.tokenB)
+    }
 }
