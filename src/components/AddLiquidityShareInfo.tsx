@@ -17,7 +17,7 @@ export default ({tokenA, tokenB, amountA}: AddLiquidityShareInfoProps) => {
 
     const priceBPerA = quoteMarketValue(1, poolAmounts, tokenB, tokenA)
     const priceAPerB = quoteMarketValue(1, poolAmounts, tokenA, tokenB)
-    const poolShare = amountA / (amountA + poolAmounts?.poolA)
+    const poolShare = amountA / (amountA + poolAmounts[tokenA.uri])
 
     const labelBPerA = tokenB.ticker + " per " + tokenA.ticker
     const labelAPerB = tokenA.ticker + " per " + tokenB.ticker

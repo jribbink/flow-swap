@@ -8,30 +8,26 @@ import usePoolAmounts from "hooks/use-pool-amounts"
 import { findPair, round } from "util/util"
 import { exchangeTokens } from "util/exchange-tokens"
 import { quoteTransaction } from "util/quote"
+import { useBalance } from "hooks/use-balance"
 
 export default () => {
     const tokens = config.tokens
     const defaultTokenFrom = config.tokens[0]
 
-    const [availableTokens, setAvailableTokens] = useState(tokens)
     const [amountFrom, setAmountFrom] = useState(0)
     const [amountTo, setAmountTo] = useState(0)
     const [tokenFrom, setTokenFrom] = useState(defaultTokenFrom)
     const [tokenTo, setTokenTo] = useState<Token | undefined>()
 
     const user = useCurrentUser()
+    const balanceFrom = useBalance(tokenFrom, user.addr)
     const poolAmounts = usePoolAmounts(tokenFrom, tokenTo)
-
-    useEffect(function updateAvailableTokens() {
-        setAvailableTokens(tokens.filter(token =>
-            token.ticker != tokenFrom.ticker && token.ticker != tokenTo?.ticker
-        ))
-    }, [tokenFrom, tokenTo])
 
     function getButtonDisabledText() {
         if (amountFrom < 0) return "Not Enough Tokens in Pool"
         else if (!tokenTo || !tokenFrom) return "Select a Token"
         else if (!amountFrom || !amountTo) return "Enter an amount"
+        else if (amountFrom > balanceFrom) return "Insufficient Funds"
         else return null
     }
 
@@ -44,6 +40,7 @@ export default () => {
         setOtherAmount: Dispatch<SetStateAction<number>>,
         isAmountTo: boolean
     ) {
+        console.log("HEY")
         if(tokenChangedRef.current == true) {
             tokenChangedRef.current = false
             return
@@ -81,7 +78,6 @@ export default () => {
             <div style={{'fontSize': '18px', 'fontWeight': '550'}}>Swap</div>
             <TokenInput
                 label="From"
-                availableTokens={availableTokens}
                 tokens={config.tokens}
                 amount={Math.max(0, amountFrom)}
                 token={tokenFrom}
@@ -90,7 +86,6 @@ export default () => {
             />
             <TokenInput
                 label="To"
-                availableTokens={availableTokens}
                 tokens={config.tokens}
                 amount={amountTo}
                 token={tokenTo}

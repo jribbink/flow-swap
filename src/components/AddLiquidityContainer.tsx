@@ -11,6 +11,7 @@ import useCurrentUser from 'hooks/use-current-user'
 import { addLiquidity } from 'util/add-liquidity'
 import { findPair, round } from 'util/util'
 import { quoteMarketValue, quoteTransaction } from 'util/quote'
+import { useBalance } from 'hooks/use-balance'
 
 
 export default () => {
@@ -37,6 +38,8 @@ export default () => {
     const [amountB, setAmountB] = useState<number>(0)
 
     const user = useCurrentUser()
+    const balanceA = useBalance(tokenA, user.addr)
+    const balanceB = useBalance(tokenB, user.addr)
     const poolAmounts = usePoolAmounts(tokenA, tokenB)
 
     const handleSupplyClick: MouseEventHandler = e => {
@@ -68,6 +71,7 @@ export default () => {
     function buttonDisabledText() {
         if (!tokenA || !tokenB) return "Select a Token"
         else if (!amountA || !amountB) return "Enter an amount"
+        else if (amountA > balanceA || amountB > balanceB) return "Insufficient Funds"
         else return null
     }
 

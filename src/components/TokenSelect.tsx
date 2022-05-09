@@ -66,7 +66,6 @@ export default ({onChange, onClick, value: token, showBalance = false, tokens, a
                 show={showModal}
                 onShowChange={setShowModal}
                 onTokenChange={onChange}
-                currentToken={token}
                 tokens={tokens}
                 availableTokens={availableTokens}
             />

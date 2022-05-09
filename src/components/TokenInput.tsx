@@ -1,8 +1,7 @@
-import { exists } from "fs"
 import { useBalance } from "hooks/use-balance"
 import useCurrentUser from "hooks/use-current-user"
 import { Token } from "models/token"
-import { KeyboardEventHandler, useEffect, useRef, useState } from "react"
+import { ChangeEventHandler, KeyboardEventHandler, useEffect, useRef, useState } from "react"
 import TokenSelect from "./TokenSelect"
 
 const noop = (...args: any[]) => {}
@@ -28,6 +27,7 @@ export default ({
 }: TokenInputProps) => {
     // needs independent string input state in order to retain decimal places that would not be retained in floating point
     const [value, setValue] = useState<string>("")
+    const [lastValue, setLastValue] = useState<string>(value)
     const user = useCurrentUser()
     const balance = useBalance(token ?? "", user.addr)
 
@@ -51,11 +51,16 @@ export default ({
         element.focus()
     }
 
-    const onInput: KeyboardEventHandler = e => {
+    const onChangeValue: ChangeEventHandler<HTMLInputElement> = e => {
         const element: HTMLInputElement = inputRef.current!
-        const pattern = new RegExp(element.getAttribute("pattern")??"")
-        if(!pattern.test(element.value + e.key)) {
-            e.preventDefault()
+        const pattern = new RegExp(element.getAttribute("pattern") ?? "")
+        const newValue = e.target.value
+
+        if(!pattern.test(newValue)) {
+            setValue(lastValue)
+        } else {
+            setValue(newValue)
+            setLastValue(newValue)
         }
     }
 
@@ -79,15 +84,10 @@ export default ({
                     placeholder="0.0"
                     pattern="^[0-9]*[.,]?[0-9]{0,8}$"
                     ref={inputRef}
-                    onKeyPress={onInput}
-                    onChange={e => {
-                        console.log("change ", label)
-                        setValue(e.target.value)
-                    }}
+                    onChange={onChangeValue}
                 />
                 <TokenSelect
                     value={token}
-                    availableTokens={availableTokens}
                     tokens={tokens}
                     onChange={token => onChangeToken(token)}
                     onClick={e => e.stopPropagation()}
