@@ -4,7 +4,7 @@ import config from 'config'
 import { Token } from 'models/token'
 import { findPair } from './util'
 
-export function exchangeTokens(tokenFrom: Token, tokenTo: Token, amountIn: number, amountTo: number) {
+export const exchangeTokens: TransactionFunction = (tokenFrom: Token, tokenTo: Token, amountIn: number, amountTo: number) => {
     const minAmountOut = amountTo * (1 - config.clientOptions.slippage)
 
     const pair = findPair(tokenFrom, tokenTo)!
@@ -12,7 +12,7 @@ export function exchangeTokens(tokenFrom: Token, tokenTo: Token, amountIn: numbe
 
     const inOrder = tokenA.ticker == tokenFrom.ticker
 
-    fcl.mutate({
+    const res = (fcl.mutate as (args: any) => Promise<string>)({
         args: (arg: any, t: any) => [
             arg(amountIn.toFixed(8), t.UFix64),
             arg(minAmountOut.toFixed(8), t.UFix64)
@@ -53,7 +53,10 @@ export function exchangeTokens(tokenFrom: Token, tokenTo: Token, amountIn: numbe
         }
         `,
         limit: 100
-    }).then(res => {
-        alert("TRANSACTION SUCCEEDED!")
-    })
+    }).then(id => ({
+        id,
+        description: "Hello World"
+    }))
+
+    return res
 }

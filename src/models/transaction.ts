@@ -1,16 +1,9 @@
-export enum TransactionStatus {
-    UNKNOWN,
-    PENDING,
-    FINALIZED,
-    EXECUTED,
-    SEALED,
-    EXPIRED
-}
+import { TransactionStatusCode } from "ts/enums/transaction-status-code"
 
 export class Transaction {
     id!: string
     description!: string
-    status!: TransactionStatus
+    status!: TransactionStatusCode
     errorMessage?: string
 
     constructor(data: NonOptional<Transaction>) {

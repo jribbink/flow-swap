@@ -5,10 +5,10 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import TransactionButton from "./TransactionButton"
 import TokenInput from "./TokenInput"
 import usePoolAmounts from "hooks/use-pool-amounts"
-import { findPair, round } from "util/util"
 import { exchangeTokens } from "util/exchange-tokens"
 import { quoteTransaction } from "util/quote"
 import { useBalance } from "hooks/use-balance"
+import { useTransactions } from "hooks/use-transactions"
 
 export default () => {
     const tokens = config.tokens
@@ -22,6 +22,7 @@ export default () => {
     const user = useCurrentUser()
     const balanceFrom = useBalance(tokenFrom, user.addr)
     const poolAmounts = usePoolAmounts(tokenFrom, tokenTo)
+    const [transactions, executeTransaction] = useTransactions()
 
     function getButtonDisabledText() {
         if (amountFrom < 0) return "Not Enough Tokens in Pool"
@@ -40,7 +41,6 @@ export default () => {
         setOtherAmount: Dispatch<SetStateAction<number>>,
         isAmountTo: boolean
     ) {
-        console.log("HEY")
         if(tokenChangedRef.current == true) {
             tokenChangedRef.current = false
             return
@@ -70,7 +70,7 @@ export default () => {
 
     const onSwapClick = () => {
         if (!tokenTo) return
-        exchangeTokens(tokenFrom, tokenTo, amountFrom, amountTo)
+        executeTransaction(() => exchangeTokens(tokenFrom, tokenTo, amountFrom, amountTo))
     }
     
     return (
