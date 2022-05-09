@@ -12,8 +12,8 @@ enum BootstrapBreakpoint {
 
 type BreakpointProps = {
     children: ReactNode,
-    show?: "xs" | "sm" | "md" | "lg" | "xl" | "xl" | "xxl"
-    hide?: "xs" | "sm" | "md" | "lg" | "xl" | "xl" | "xxl"
+    show?: "xs" | "sm" | "md" | "lg" | "xl" | "xl" | "xxl" | number
+    hide?: "xs" | "sm" | "md" | "lg" | "xl" | "xl" | "xxl" | number
 }
 
 export default ({children, show, hide}: BreakpointProps) => {
@@ -21,8 +21,16 @@ export default ({children, show, hide}: BreakpointProps) => {
 
     if (!windowSize) return null
 
-    if (!show || windowSize.width > BootstrapBreakpoint[show]) {
-        if (!hide || windowSize.width < BootstrapBreakpoint[hide]) {
+    const parseBreakpoint = (breakpoint: "xs" | "sm" | "md" | "lg" | "xl" | "xl" | "xxl" | number): number => {
+        if (typeof breakpoint == "string") {
+            return BootstrapBreakpoint[breakpoint]
+        } else {
+            return breakpoint
+        }
+    }
+
+    if (!show || windowSize.width >= parseBreakpoint(show)) {
+        if (!hide || windowSize.width < parseBreakpoint(hide)) {
             return <>{children}</>
         }
     }
