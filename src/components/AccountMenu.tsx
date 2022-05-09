@@ -1,21 +1,21 @@
 // @ts-ignore
 import * as fcl from '@onflow/fcl'
 import { useBalance } from "hooks/use-balance"
-import { MouseEventHandler, useState } from "react"
+import { MouseEventHandler, useContext, useState } from "react"
 import AccountInfoModal from './AccountInfoModal'
 import useCurrentUser from 'hooks/use-current-user'
 import Breakpoint from './Breakpoint'
-import { useTransactions } from 'hooks/use-transactions'
-import { TransactionStatus } from 'models/transaction'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSync } from "@fortawesome/free-solid-svg-icons"
+import { TransactionStatusCode } from 'ts/enums/transaction-status-code'
+import { TransactionsContext } from 'contexts/transactions-context'
 
 type AccountMenuProps = {}
 
 export default ({}: AccountMenuProps) => {
     const user = useCurrentUser()
     const balance = useBalance("FLOW", user.addr)
-    const pendingTransactions = useTransactions()[0].filter(tx => tx.status == TransactionStatus.PENDING)
+    const pendingTransactions = useContext(TransactionsContext)[0].filter(tx => tx.status == TransactionStatusCode.PENDING)
     const [showAccountInfo, setShowAccountInfo] = useState(() => false)
 
     const shortAddress = (address: string) => {

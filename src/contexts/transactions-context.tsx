@@ -1,10 +1,22 @@
 // @ts-ignore
 import * as fcl from '@onflow/fcl'
 import { Transaction } from "models/transaction";
+import { mutate } from 'swr';
 import { TransactionStatusCode } from 'ts/enums/transaction-status-code';
-import useStateCallback from './use-state-callback';
+import { createContext, ReactNode } from "react";
+import useStateCallback from 'hooks/use-state-callback';
+import { KEY } from 'hooks/use-all-balances';
 
-export function useTransactions(): [Transaction[], (transactionFunction: TransactionFunction) => void] {
+type TransactionsContextValue = [
+    transactions: Transaction[],
+    executeTransaction: (transactionFunction: TransactionFunction) => void
+]
+
+export const TransactionsContext = createContext<TransactionsContextValue>([
+    [], () => {}
+])
+
+export const TransactionsProvider = ({children}: {children: ReactNode}) => {
     const [transactions, setTransactions] = useStateCallback<Transaction[]>([])
 
     const executeTransaction = (transactionFunction: TransactionFunction) => {
@@ -21,11 +33,25 @@ export function useTransactions(): [Transaction[], (transactionFunction: Transac
                     if (transaction) {
                         transaction.status = status.status
                         setTransactions(transactions)
+
+                        if(transaction.status == TransactionStatusCode.SEALED) {
+                            // Update balances by mutating SWR key
+                            mutate(KEY)
+                        }
                     }
                 })
             })
         })
     }
 
-    return [transactions, executeTransaction]
+    const value: TransactionsContextValue = [
+        transactions,
+        executeTransaction
+    ]
+
+    return (
+        <TransactionsContext.Provider value={value}>
+            {children}
+        </TransactionsContext.Provider>
+    )
 }

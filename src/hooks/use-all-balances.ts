@@ -6,7 +6,7 @@ import { Token } from "models/token"
 import { useEffect, useState } from "react"
 import swr, {mutate} from "swr"
 
-const KEY = '/get-all-balances'
+export const KEY = '/get-all-balances'
 
 /**
  * 

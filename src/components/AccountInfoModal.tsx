@@ -4,6 +4,7 @@ import useCurrentUser from 'hooks/use-current-user'
 import { BaseModalProps } from 'models/base-modal-props'
 import { useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
+import TransactionsList from './TransactionsList'
 
 interface AccountInfoModalProps extends BaseModalProps {}
 
@@ -14,16 +15,13 @@ export default ({ show, onShowChange }: AccountInfoModalProps) => {
     return (
         <Modal show={show} onHide={() => onShowChange(false)}>
             <Modal.Header closeButton>
-                <Modal.Title>Account Info</Modal.Title>
+                <Modal.Title>Account</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
                 <p>Address: {currentUser.addr}</p>
+                <TransactionsList></TransactionsList>
             </Modal.Body>
-
-            <Modal.Footer>
-                <Button variant="danger" onClick={fcl.unauthenticate}>Log out</Button>
-            </Modal.Footer>
         </Modal>
     )
 }

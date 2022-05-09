@@ -1,3 +1,4 @@
+import { TransactionsProvider } from "contexts/transactions-context"
 import React from "react"
 import Footer from "./Footer"
 import Header from "./Header"
@@ -14,10 +15,12 @@ const overflowStyle = {
 
 export default ({children}: LayoutProps) => {
     return (
-        <div className="bg-success bg-opacity-25 d-flex flex-column" style={overflowStyle}>
-            <Header />
-            <main className="container p-4 flex-grow-1">{children}</main>
-            <Footer></Footer>
-        </div>
+        <TransactionsProvider>
+            <div className="bg-success bg-opacity-25 d-flex flex-column" style={overflowStyle}>
+                <Header />
+                <main className="container p-4 flex-grow-1">{children}</main>
+                <Footer></Footer>
+            </div>
+        </TransactionsProvider>
     )
 }
