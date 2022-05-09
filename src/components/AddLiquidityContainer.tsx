@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import AddLiquidityHeader from './AddLiquidityHeader'
 import TokenInput from './TokenInput'
 import config from 'config'
@@ -12,6 +10,7 @@ import usePoolAmounts from 'hooks/use-pool-amounts'
 import useCurrentUser from 'hooks/use-current-user'
 import { addLiquidity } from 'util/add-liquidity'
 import { findPair, round } from 'util/util'
+import { quoteMarketValue, quoteTransaction } from 'util/quote'
 
 
 export default () => {
@@ -51,8 +50,7 @@ export default () => {
     function updateTokenAmounts(
         changedAmount: number,
         setOtherAmount: Dispatch<SetStateAction<number>>,
-        changedToken: "poolA" | "poolB",
-        otherToken: "poolA" | "poolB",
+        isAmountTo: boolean
     ) {
         if(tokenChangedRef.current == true) {
             tokenChangedRef.current = false
@@ -60,16 +58,12 @@ export default () => {
         } else {
             tokenChangedRef.current = true
         }
-
-        let ratio = 0
-        if(poolAmounts?.poolA && poolAmounts?.poolB)
-            ratio = poolAmounts[otherToken] / poolAmounts[changedToken]
-
-        setOtherAmount(round(changedAmount * ratio, 8))
+        
+        setOtherAmount(quoteMarketValue(changedAmount, poolAmounts, tokenA, tokenB))
     }
 
-    useEffect(() => updateTokenAmounts(amountA, setAmountB, 'poolA', 'poolB'), [tokenB, tokenA, amountA])
-    useEffect(() => updateTokenAmounts(amountB, setAmountA, 'poolB', 'poolA'), [amountB])
+    useEffect(() => updateTokenAmounts(amountA, setAmountB, false), [tokenA, tokenB, amountA])
+    useEffect(() => updateTokenAmounts(amountB, setAmountA, true), [amountB])
 
     function buttonDisabledText() {
         if (!tokenA || !tokenB) return "Select a Token"

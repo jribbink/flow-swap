@@ -3,7 +3,8 @@ import useCurrentUser from "hooks/use-current-user"
 import usePoolAmounts from "hooks/use-pool-amounts"
 import { SwapPair } from "models/swap-pair"
 import { Token } from "models/token"
-import { round } from "util/util"
+import { quoteMarketValue } from "util/quote"
+import { numberToPercent, round } from "util/util"
 
 type AddLiquidityShareInfoProps = {
     tokenA: Token,
@@ -12,14 +13,11 @@ type AddLiquidityShareInfoProps = {
 }
 
 export default ({tokenA, tokenB, amountA}: AddLiquidityShareInfoProps) => {
-    const user = useCurrentUser()
     const poolAmounts = usePoolAmounts(tokenA, tokenB)
 
-    const priceBPerA = poolAmounts?.poolA / poolAmounts?.poolB
-    const priceAPerB = 1/priceBPerA
-    const poolSharePercent = (amountA / (amountA + poolAmounts?.poolA)) * 100
-    const poolShareDescriptor = (poolSharePercent > 0.01) ? poolSharePercent.toFixed(2) + "%" : "<0.01%"
-    console.log(poolAmounts, amountA, (amountA + poolAmounts?.poolA))
+    const priceBPerA = quoteMarketValue(1, poolAmounts, tokenB, tokenA)
+    const priceAPerB = quoteMarketValue(1, poolAmounts, tokenA, tokenB)
+    const poolShare = amountA / (amountA + poolAmounts?.poolA)
 
     const labelBPerA = tokenB.ticker + " per " + tokenA.ticker
     const labelAPerB = tokenA.ticker + " per " + tokenB.ticker
@@ -31,7 +29,7 @@ export default ({tokenA, tokenB, amountA}: AddLiquidityShareInfoProps) => {
             <div className="rounded-3 border bg-light d-flex flex-row mt-2">
                 <PoolShareColumn valueText={round(priceBPerA, 8).toString()} labelText={labelBPerA}></PoolShareColumn>
                 <PoolShareColumn valueText={round(priceAPerB, 8).toString()} labelText={labelAPerB}></PoolShareColumn>
-                <PoolShareColumn valueText={poolShareDescriptor} labelText={labelSharePercent}></PoolShareColumn>
+                <PoolShareColumn valueText={numberToPercent(poolShare)} labelText={labelSharePercent}></PoolShareColumn>
             </div>
         </div>
     )

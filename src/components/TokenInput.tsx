@@ -80,7 +80,10 @@ export default ({
                     pattern="^[0-9]*[.,]?[0-9]{0,8}$"
                     ref={inputRef}
                     onKeyPress={onInput}
-                    onChange={e => setValue(e.target.value)}
+                    onChange={e => {
+                        console.log("change ", label)
+                        setValue(e.target.value)
+                    }}
                 />
                 <TokenSelect
                     value={token}

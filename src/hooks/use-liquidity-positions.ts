@@ -13,9 +13,9 @@ export default () => {
             acc.push(<LiquidityPosition>{
                 pair: pair.pair,
                 tokenAmount: pair.balance,
-                share: pair.balance / poolAmounts[pair.pair.name].totalSupply,
-                poolA: poolAmounts[pair.pair.name].poolA,
-                poolB: poolAmounts[pair.pair.name].poolB
+                share: pair.balance / poolAmounts[pair.pair.name].totalPoolTokens,
+                poolA: poolAmounts[pair.pair.name][pair.pair.tokenA.uri],
+                poolB: poolAmounts[pair.pair.name][pair.pair.tokenB.uri]
             })
         }
         return acc

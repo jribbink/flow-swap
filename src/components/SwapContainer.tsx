@@ -5,8 +5,9 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import TransactionButton from "./TransactionButton"
 import TokenInput from "./TokenInput"
 import usePoolAmounts from "hooks/use-pool-amounts"
-import { round } from "util/util"
+import { findPair, round } from "util/util"
 import { exchangeTokens } from "util/exchange-tokens"
+import { quoteTransaction } from "util/quote"
 
 export default () => {
     const tokens = config.tokens
@@ -28,7 +29,8 @@ export default () => {
     }, [tokenFrom, tokenTo])
 
     function getButtonDisabledText() {
-        if (!tokenTo || !tokenFrom) return "Select a Token"
+        if (amountFrom < 0) return "Not Enough Tokens in Pool"
+        else if (!tokenTo || !tokenFrom) return "Select a Token"
         else if (!amountFrom || !amountTo) return "Enter an amount"
         else return null
     }
@@ -40,8 +42,7 @@ export default () => {
     function updateTokenAmounts(
         changedAmount: number,
         setOtherAmount: Dispatch<SetStateAction<number>>,
-        changedToken: "poolA" | "poolB",
-        otherToken: "poolA" | "poolB",
+        isAmountTo: boolean
     ) {
         if(tokenChangedRef.current == true) {
             tokenChangedRef.current = false
@@ -50,15 +51,11 @@ export default () => {
             tokenChangedRef.current = true
         }
 
-        let ratio = 0
-        if(poolAmounts?.poolA && poolAmounts?.poolB)
-            ratio = poolAmounts[otherToken] / poolAmounts[changedToken]
-
-        setOtherAmount(round(changedAmount * ratio, 8))
+        setOtherAmount(quoteTransaction(changedAmount, poolAmounts, tokenFrom, tokenTo, isAmountTo))
     }
 
-    useEffect(() => updateTokenAmounts(amountFrom, setAmountTo, 'poolA', 'poolB'), [tokenTo, tokenFrom, amountFrom])
-    useEffect(() => updateTokenAmounts(amountTo, setAmountFrom, 'poolB', 'poolA'), [amountTo])
+    useEffect(() => updateTokenAmounts(amountFrom, setAmountTo, false), [tokenTo, tokenFrom, amountFrom])
+    useEffect(() => updateTokenAmounts(amountTo, setAmountFrom, true), [amountTo])
 
     const onChangeTokenFrom = (token: Token) => {
         if(token.ticker == tokenTo?.ticker) {
@@ -76,7 +73,7 @@ export default () => {
 
     const onSwapClick = () => {
         if (!tokenTo) return
-        exchangeTokens(tokenFrom, tokenTo, amountFrom)
+        exchangeTokens(tokenFrom, tokenTo, amountFrom, amountTo)
     }
     
     return (
@@ -86,7 +83,7 @@ export default () => {
                 label="From"
                 availableTokens={availableTokens}
                 tokens={config.tokens}
-                amount={amountFrom}
+                amount={Math.max(0, amountFrom)}
                 token={tokenFrom}
                 onChangeAmount={newAmount => setAmountFrom(newAmount)}
                 onChangeToken={onChangeTokenFrom}

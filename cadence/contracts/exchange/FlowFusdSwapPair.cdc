@@ -293,45 +293,49 @@ pub contract FlowFusdSwapPair: FungibleToken {
 
   // Get quote for Token1 (given) -> Token2
   pub fun quoteSwapExactToken1ForToken2(amount: UFix64): UFix64 {
-    pre {
-      self.token2Vault.balance >= amount: "Not enough Token2 in the pool"
-    }
+    let poolAmounts = self.getPoolAmounts()
 
-    // Fixed price 1:1
-    return amount
+    // token1Amount * token2Amount = token1Amount' * token2Amount' = (token1Amount + amount) * (token2Amount - quote)
+    let quote = poolAmounts.token2Amount * amount / (poolAmounts.token1Amount + amount);
+
+    return quote
   }
 
   // Get quote for Token1 -> Token2 (given)
   pub fun quoteSwapToken1ForExactToken2(amount: UFix64): UFix64 {
-    pre {
-      self.token2Vault.balance >= amount: "Not enough Token2 in the pool"
-    }
+    let poolAmounts = self.getPoolAmounts()
 
-    // Fixed price 1:1
-    return amount
+    assert(poolAmounts.token2Amount > amount, message: "Not enough Token2 in the pool")
+
+    // token1Amount * token2Amount = token1Amount' * token2Amount' = (token1Amount + quote) * (token2Amount - amount)
+    let quote = poolAmounts.token1Amount * amount / (poolAmounts.token2Amount - amount);
+
+    return quote
   }
 
   // Get quote for Token2 (given) -> Token1
   pub fun quoteSwapExactToken2ForToken1(amount: UFix64): UFix64 {
-    pre {
-      self.token1Vault.balance >= amount: "Not enough Token1 in the pool"
-    }
+    let poolAmounts = self.getPoolAmounts()
 
-    // Fixed price 1:1
-    return amount
+    // token1Amount * token2Amount = token1Amount' * token2Amount' = (token2Amount + amount) * (token1Amount - quote)
+    let quote = poolAmounts.token1Amount * amount / (poolAmounts.token2Amount + amount);
+
+    return quote
   }
 
   // Get quote for Token2 -> Token1 (given)
   pub fun quoteSwapToken2ForExactToken1(amount: UFix64): UFix64 {
-    pre {
-      self.token1Vault.balance >= amount: "Not enough Token1 in the pool"
-    }
+    let poolAmounts = self.getPoolAmounts()
 
-    // Fixed price 1:1
-    return amount
+    assert(poolAmounts.token1Amount > amount, message: "Not enough Token1 in the pool")
+
+    // token1Amount * token2Amount = token1Amount' * token2Amount' = (token2Amount + quote) * (token1Amount - amount)
+    let quote = poolAmounts.token2Amount * amount / (poolAmounts.token1Amount - amount);
+
+    return quote
   }
-
-  // Swaps Token1 (FUSD) -> Token2 (tUSDT)
+  
+  // Swaps Token1 (FlowToken) -> Token2 (FUSD)
   access(contract) fun _swapToken1ForToken2(from: @FlowToken.Vault): @FUSD.Vault {
     pre {
       !FlowFusdSwapPair.isFrozen: "FlowFusdSwapPair is frozen"
@@ -359,7 +363,7 @@ pub contract FlowFusdSwapPair: FungibleToken {
     return <- FlowFusdSwapPair._swapToken1ForToken2(from: <-from)
   }
 
-  // Swap Token2 (tUSDT) -> Token1 (FUSD)
+  // Swap Token2 (FUSD) -> Token1 (FlowToken)
   access(contract) fun _swapToken2ForToken1(from: @FUSD.Vault): @FlowToken.Vault {
     pre {
       !FlowFusdSwapPair.isFrozen: "FlowFusdSwapPair is frozen"

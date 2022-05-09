@@ -16,6 +16,8 @@ export default ({position: {
 }}: LiquidityPositionProps) => {
     const [showDropdown, setShowDropdown] = useState(false)
 
+    console.log(share)
+
     return (
         <div>
             <button

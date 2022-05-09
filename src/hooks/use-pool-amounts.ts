@@ -8,8 +8,6 @@ export default function usePoolAmounts (tokenA?: Token, tokenB?: Token) {
     const pair = findPair(tokenA, tokenB)
 
     return poolAmounts && pair ? poolAmounts[pair.name] : <PoolAmount>{
-        poolA: 0,
-        poolB: 0,
-        totalSupply: 0
+        totalPoolTokens: 0
     }
 }

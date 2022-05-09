@@ -1,6 +1,5 @@
 export interface PoolAmount { 
-    poolA: number,
-    poolB: number,
-    totalSupply: number
+    [tokenURI: string]: number;
+    totalPoolTokens: number
 }
 export type PoolAmounts = {[pairName: string]: PoolAmount}

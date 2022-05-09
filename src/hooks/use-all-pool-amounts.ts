@@ -34,9 +34,9 @@ export default function useAllPoolAmounts(): PoolAmounts {
         const poolAmounts: PoolAmounts = {}
         config.pairs.forEach((pair, i) => {
             poolAmounts[pair.name] = {
-                poolA: parseFloat(res[i]),
-                poolB: parseFloat(res[i + 1]),
-                totalSupply: parseFloat(res[i + 2])
+                [pair.tokenA.uri]: parseFloat(res[i]),
+                [pair.tokenB.uri]: parseFloat(res[i + 1]),
+                totalPoolTokens: parseFloat(res[i + 2])
             }
         })
 
