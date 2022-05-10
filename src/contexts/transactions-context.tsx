@@ -44,7 +44,7 @@ export const TransactionsProvider = ({children}: {children: ReactNode}) => {
                 status: TransactionStatusCode.PENDING
             })
             
-            setTransactions([...transactions, transaction], (transactions: Transaction[]) => {
+            setTransactions([transaction, ...transactions], (transactions: Transaction[]) => {
                 fcl.tx(id).subscribe((status: TransactionStatus) => {
                     setTransactions(transactions.map(tx => {
                         if(tx.id == id) {

@@ -55,7 +55,7 @@ export const exchangeTokens: TransactionFunction = (tokenFrom: Token, tokenTo: T
         limit: 100
     }).then(id => ({
         id,
-        description: `Exchange ${round(amountIn, 6)} ${tokenFrom.ticker} for ${round(amountTo, 6)} ${tokenTo.ticker}`
+        description: `Exchange ${round(amountIn, 4)} ${tokenFrom.ticker} for ${round(amountTo, 4)} ${tokenTo.ticker}`
     }))
 
     return res

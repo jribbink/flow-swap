@@ -84,6 +84,6 @@ export const addLiquidity: TransactionFunction = async (swap: SwapPair, tokenAIn
 
     return {
       id: txId,
-      description: `Add ${round(tokenAIn, 6)} ${swap.tokenA.ticker} and ${round(tokenBIn, 6)} ${swap.tokenB.ticker} liquidity`
+      description: `Add ${round(tokenAIn, 4)} ${swap.tokenA.ticker} and ${round(tokenBIn, 4)} ${swap.tokenB.ticker} liquidity`
     }
 }

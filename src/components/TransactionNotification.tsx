@@ -16,7 +16,7 @@ export default ({notification, onCloseClick}: TransactionNotificationProps) => {
             className="shadow rounded-4 bg-white d-flex flex-column overflow-hidden"
             style={{
                 gap: "5px",
-                width: "350px"
+                width: "380px"
             }}
         >
             <div className="p-4 pb-3 d-flex flex-column">
@@ -40,7 +40,7 @@ export default ({notification, onCloseClick}: TransactionNotificationProps) => {
                 <div className="d-flex flex-row">
                     <a
                         className="btn btn-link p-0 text-decoration-none shadow-none"
-                        style={{fontSize: '0.9em'}}
+                        style={{fontSize: '0.85em'}}
                         href={generateFlowscanURL({
                             transactionId: notification.transaction.id
                         })}

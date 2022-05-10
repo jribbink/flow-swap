@@ -24,8 +24,8 @@ export default () => {
                 transactions.length > 0
                     ? (
                         <div className="d-flex flex-column" style={{gap: '5px'}}>
-                            { Object.keys(transactions).reverse().slice(0,5).map((key: any) => (
-                                <TransactionListItem key={transactions[key].id} transaction={transactions[key]} />
+                            { transactions.map(transaction => (
+                                <TransactionListItem key={transaction.id} transaction={transaction} />
                             ))}
                         </div>
                     )
