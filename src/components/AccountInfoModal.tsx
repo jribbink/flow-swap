@@ -2,8 +2,7 @@
 import * as fcl from '@onflow/fcl'
 import useCurrentUser from 'hooks/use-current-user'
 import { BaseModalProps } from 'models/base-modal-props'
-import { useState } from 'react'
-import { Button, Modal } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import AccountWalletInfo from './AccountWalletInfo'
 import TransactionsList from './TransactionsList'
 
