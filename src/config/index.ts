@@ -13,6 +13,7 @@ if (!network) {
 }
 
 interface Config {
+    network: string,
     fcl: any,
     tokens: Token[],
     pairs: SwapPair[],
@@ -21,5 +22,9 @@ interface Config {
     }
 }
 
-const config = <Config>mergeDeep({}, require('./config.base').default, require(`./config.${network}.ts`).default)
+const config = <Config>mergeDeep(
+    {network},
+    require('./config.base').default,
+    require(`./config.${network}.ts`).default
+)
 export default config

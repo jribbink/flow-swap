@@ -50,3 +50,7 @@ export function findPair(tokenA?: Token, tokenB?: Token): SwapPair | undefined {
 export function numberToPercent(value: number) {
   return `${value > 0.01 ? (round(value, 4) * 100).toFixed(2) : '<0.01'}%`
 }
+
+export function generateFlowscanURL(accountAddress: string) {
+  return `https://${(config.network == "testnet")?"testnet.":""}flowscan.org/account/${accountAddress}`
+}
