@@ -7,13 +7,16 @@ import { createContext, ReactNode, useEffect } from "react";
 import useStateCallback from 'hooks/use-state-callback';
 import { KEY } from 'hooks/use-all-balances';
 
+const noop = () => {}
+
 type TransactionsContextValue = [
     transactions: Transaction[],
-    executeTransaction: (transactionFunction: TransactionFunction) => void
+    executeTransaction: (transactionFunction: TransactionFunction) => void,
+    clearTransactions: () => void
 ]
 
 export const TransactionsContext = createContext<TransactionsContextValue>([
-    [], () => {}
+    [], noop, noop 
 ])
 
 export const TransactionsProvider = ({children}: {children: ReactNode}) => {
@@ -58,10 +61,16 @@ export const TransactionsProvider = ({children}: {children: ReactNode}) => {
             })
         })
     }
+    
+    const clearTransactions = () => {
+        console.log("HEY")
+        setTransactions([])
+    }
 
     const value: TransactionsContextValue = [
         transactions,
-        executeTransaction
+        executeTransaction,
+        clearTransactions
     ]
 
     return (

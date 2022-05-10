@@ -25,9 +25,11 @@ export default ({ show, onShowChange }: AccountInfoModalProps) => {
 
             <Modal.Body>
                 <div className='mb-4'>
-                <AccountWalletInfo></AccountWalletInfo>
+                    <AccountWalletInfo></AccountWalletInfo>
                 </div>
-                <TransactionsList></TransactionsList>
+                <div style={{margin: '0 -1rem -1rem -1rem'}}>
+                    <TransactionsList></TransactionsList>
+                </div>
             </Modal.Body>
         </Modal>
     )
