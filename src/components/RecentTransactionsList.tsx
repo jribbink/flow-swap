@@ -68,7 +68,7 @@ const TransactionListItem = ({transaction}: {transaction: Transaction}) => {
                 <FontAwesomeIcon className="ps-2" icon={faArrowUpRightFromSquare} />
             </a>
             <span className="ms-auto">
-            <FontAwesomeIcon icon={faCircleCheck} color={iconColor} spin={spin} />
+            <FontAwesomeIcon icon={icon} color={iconColor} spin={spin} />
             </span>
         </div>
     )

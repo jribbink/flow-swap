@@ -2,6 +2,10 @@
     border-radius: 15px !important;
 }
 
+.rounded-4-bottom {
+    border-radius: 0 0 15px 15px !important;
+}
+
 .no-border {
     border: 0 !important;
     box-shadow: none !important;

@@ -2,9 +2,7 @@
 import * as fcl from '@onflow/fcl'
 import config from 'config';
 import { PoolAmounts } from 'models/pool-amount';
-import { Token } from 'models/token';
 import useSWR from "swr";
-import { findPair } from 'util/util';
 
 const KEY = '/check-pool-amounts/'
 
