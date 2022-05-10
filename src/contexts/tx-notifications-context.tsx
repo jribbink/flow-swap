@@ -3,7 +3,7 @@ import { TXNotification } from "models/tx-notification"
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react"
 import { TransactionsContext } from "./transactions-context"
 
-const PROGRESS_POLLING_INTERVAL_MS = 50
+const PROGRESS_POLLING_INTERVAL_MS = 30
 
 type TXNotificationsValue = [
     notifications: TXNotification[],

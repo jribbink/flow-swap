@@ -7,6 +7,7 @@ import { useEffect } from "react"
 
 // @ts-ignore
 import * as fcl from '@onflow/fcl'
+import { AppContextProvider } from "contexts/app-context-provider"
 
 function KittyApp({ Component, pageProps }: AppProps) {
   // Config fcl
@@ -15,9 +16,11 @@ function KittyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {(window as any).fcl = fcl}, [])
 
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <AppContextProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AppContextProvider>
   )
 }
 

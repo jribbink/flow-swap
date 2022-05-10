@@ -36,6 +36,8 @@ export function useAllBalances(addr: any): {
         const tokens = config.tokens
         const pairs = config.pairs
 
+        console.log("REquesting")
+
         const cadence = `
             import FungibleToken from 0xFungibleToken
             ${
@@ -78,8 +80,6 @@ export function useAllBalances(addr: any): {
 
         const tokenBalances = balances.slice(0, tokens.length)
         const pairBalances = balances.slice(tokens.length)
-        console.log(pairBalances)
-        console.log(pairs)
 
         return {
             tokens: tokenBalances.map((val, i) => ({

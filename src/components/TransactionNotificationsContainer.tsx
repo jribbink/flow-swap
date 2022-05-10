@@ -10,7 +10,7 @@ export default () => {
     const [notifications, closeNotification] = useContext(TXNotificationsContext)
 
     return (
-        <div className="p-4">
+        <div className="p-4 d-flex flex-column" style={{gap: "20px"}}>
             {
                 notifications.map(notificaiton => (
                     <TransactionNotification
