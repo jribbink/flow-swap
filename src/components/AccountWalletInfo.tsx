@@ -22,7 +22,7 @@ export default () => {
     }
 
     const handleFlowscanClick: MouseEventHandler = () => {
-        window.open(generateFlowscanURL(user.addr), '_blank')!.focus();
+        window.open(generateFlowscanURL({ accountAddress: user.addr }), '_blank')!.focus();
     }
 
     const handleChangeAccountClick: MouseEventHandler = () => {

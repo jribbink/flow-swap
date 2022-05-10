@@ -5,11 +5,10 @@ import { useContext } from "react"
 import { faArrowsSpin, faArrowUpRightFromSquare, faCheckCircle, faSpinner, faSync, faTriangleExclamation, faXmarkCircle } from "@fortawesome/free-solid-svg-icons"
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons"
 import { TransactionStatusCode } from "ts/enums/transaction-status-code"
+import { generateFlowscanURL } from "util/util"
 
 export default () => {
     const [transactions,, clearTransactions] = useContext(TransactionsContext)
-
-    console.log(transactions)
 
     return (
         <div className="d-flex flex-column bg-secondary bg-opacity-25 p-4">
@@ -21,11 +20,21 @@ export default () => {
                     (Clear all)
                 </button>
             </div>
-            <div className="d-flex flex-column" style={{gap: '5px'}}>
-                { transactions.map(transaction => (
-                    <TransactionListItem key={transaction.id} transaction={transaction} />
-                ))}
-            </div>
+            {
+                transactions.length > 0
+                    ? (
+                        <div className="d-flex flex-column" style={{gap: '5px'}}>
+                            { Object.keys(transactions).reverse().slice(0,5).map((key: any) => (
+                                <TransactionListItem key={transactions[key].id} transaction={transactions[key]} />
+                            ))}
+                        </div>
+                    )
+                    : (
+                        <div>
+                            Your recent transactions will appear here...
+                        </div>
+                    )
+            }
         </div>
     )
 }
@@ -54,10 +63,10 @@ const TransactionListItem = ({transaction}: {transaction: Transaction}) => {
 
     return (
         <div className="d-flex flex-row align-items-center">
-            <button className="btn btn-link text-decoration-none p-0">
+            <a className="btn btn-link text-decoration-none shadow-none p-0" href={generateFlowscanURL({transactionId: transaction.id})}>
                 <span>{ transaction.description }</span>
-                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-            </button>
+                <FontAwesomeIcon className="ps-2" icon={faArrowUpRightFromSquare} />
+            </a>
             <span className="ms-auto">
             <FontAwesomeIcon icon={faCircleCheck} color={iconColor} spin={spin} />
             </span>

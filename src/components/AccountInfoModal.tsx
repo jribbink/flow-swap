@@ -4,7 +4,7 @@ import useCurrentUser from 'hooks/use-current-user'
 import { BaseModalProps } from 'models/base-modal-props'
 import { Modal } from 'react-bootstrap'
 import AccountWalletInfo from './AccountWalletInfo'
-import TransactionsList from './TransactionsList'
+import RecentTransactionsList from './RecentTransactionsList'
 
 interface AccountInfoModalProps extends BaseModalProps {}
 
@@ -28,7 +28,7 @@ export default ({ show, onShowChange }: AccountInfoModalProps) => {
                     <AccountWalletInfo></AccountWalletInfo>
                 </div>
                 <div style={{margin: '0 -1rem -1rem -1rem'}}>
-                    <TransactionsList></TransactionsList>
+                    <RecentTransactionsList></RecentTransactionsList>
                 </div>
             </Modal.Body>
         </Modal>

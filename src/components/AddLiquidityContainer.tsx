@@ -1,7 +1,7 @@
 import AddLiquidityHeader from './AddLiquidityHeader'
 import TokenInput from './TokenInput'
 import config from 'config'
-import { Dispatch, MouseEventHandler, SetStateAction, useEffect, useRef, useState } from 'react'
+import { Dispatch, MouseEventHandler, SetStateAction, useContext, useEffect, useRef, useState } from 'react'
 import { Token } from 'models/token'
 import { useRouter } from 'next/router'
 import AddLiquidityShareInfo from './AddLiquidityShareInfo'
@@ -12,6 +12,7 @@ import { addLiquidity } from 'util/add-liquidity'
 import { findPair, round } from 'util/util'
 import { quoteMarketValue, quoteTransaction } from 'util/quote'
 import { useBalance } from 'hooks/use-balance'
+import { TransactionsContext } from 'contexts/transactions-context'
 
 
 export default () => {
@@ -41,10 +42,11 @@ export default () => {
     const balanceA = useBalance(tokenA, user.addr)
     const balanceB = useBalance(tokenB, user.addr)
     const poolAmounts = usePoolAmounts(tokenA, tokenB)
+    const [,executeTransaction] = useContext(TransactionsContext)
 
     const handleSupplyClick: MouseEventHandler = e => {
         const pair = findPair(tokenA, tokenB)
-        addLiquidity(pair!, amountA, amountB)
+        executeTransaction(() => addLiquidity(pair!, amountA, amountB))
     }
 
     // Ref that stores whether next token update should be ignored (prevent looping amount changes between to/from) 

@@ -51,6 +51,19 @@ export function numberToPercent(value: number) {
   return `${value > 0.01 ? (round(value, 4) * 100).toFixed(2) : '<0.01'}%`
 }
 
-export function generateFlowscanURL(accountAddress: string) {
-  return `https://${(config.network == "testnet")?"testnet.":""}flowscan.org/account/${accountAddress}`
+export function generateFlowscanURL({
+  accountAddress,
+  transactionId
+}: {
+  accountAddress?: string,
+  transactionId?: string
+}) {
+  let url = `https://${(config.network == "testnet")?"testnet.":""}flowscan.org/`
+  if (transactionId) {
+    url += `transaction/${transactionId}`
+  } else if (accountAddress) {
+    url += `account/${accountAddress}`
+  }
+
+  return url
 }

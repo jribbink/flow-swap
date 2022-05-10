@@ -63,7 +63,6 @@ export const TransactionsProvider = ({children}: {children: ReactNode}) => {
     }
     
     const clearTransactions = () => {
-        console.log("HEY")
         setTransactions([])
     }
 

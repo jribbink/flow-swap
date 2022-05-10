@@ -2,7 +2,7 @@
 import * as fcl from '@onflow/fcl'
 import config from 'config'
 import { Token } from 'models/token'
-import { findPair } from './util'
+import { findPair, round } from './util'
 
 export const exchangeTokens: TransactionFunction = (tokenFrom: Token, tokenTo: Token, amountIn: number, amountTo: number) => {
     const minAmountOut = amountTo * (1 - config.clientOptions.slippage)
@@ -55,7 +55,7 @@ export const exchangeTokens: TransactionFunction = (tokenFrom: Token, tokenTo: T
         limit: 100
     }).then(id => ({
         id,
-        description: "Hello World"
+        description: `Exchange ${round(amountIn, 6)} ${tokenFrom.ticker} for ${round(amountTo, 6)} ${tokenTo.ticker}`
     }))
 
     return res

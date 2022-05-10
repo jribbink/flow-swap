@@ -2,14 +2,15 @@
 import * as fcl from '@onflow/fcl'
 import config from 'config'
 import { SwapPair } from 'models/swap-pair'
+import { round } from './util'
 
-export function addLiquidity(swap: SwapPair, tokenBIn: number, tokenAIn: number) {
-    const tokenBMin = tokenBIn * (1 - config.clientOptions.slippage)
+export const addLiquidity: TransactionFunction = async (swap: SwapPair, tokenAIn: number, tokenBIn: number) => {
     const tokenAMin = tokenAIn * (1 - config.clientOptions.slippage)
+    const tokenBMin = tokenBIn * (1 - config.clientOptions.slippage)
 
     const {tokenA, tokenB} = swap
 
-    fcl.mutate({
+    const txId = await fcl.mutate({
         args: (arg: any, t: any) => [
             arg(tokenBIn.toFixed(8), t.UFix64),
             arg(tokenAIn.toFixed(8), t.UFix64),
@@ -80,4 +81,9 @@ export function addLiquidity(swap: SwapPair, tokenBIn: number, tokenAIn: number)
         `,
         limit: 1000
     })
+
+    return {
+      id: txId,
+      description: `Add ${round(tokenAIn, 6)} ${swap.tokenA.ticker} and ${round(tokenBIn, 6)} ${swap.tokenB.ticker} liquidity`
+    }
 }
