@@ -1,5 +1,5 @@
 import config from "config"
-import useCurrentUser from "hooks/use-current-user"
+import useCurrentUser from 'hooks/use-current-user'
 import { Token } from "models/token"
 import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from "react"
 import TransactionButton from "./TransactionButton"
@@ -9,6 +9,8 @@ import { exchangeTokens } from "util/exchange-tokens"
 import { quoteTransaction } from "util/quote"
 import { useBalance } from "hooks/use-balance"
 import { TransactionsContext } from "contexts/transactions-context"
+import { mutate } from "swr"
+import { KEY } from "hooks/use-all-pool-amounts"
 
 export default () => {
     const tokens = config.tokens
@@ -23,6 +25,8 @@ export default () => {
     const balanceFrom = useBalance(tokenFrom, user.addr)
     const poolAmounts = usePoolAmounts(tokenFrom, tokenTo)
     const [transactions, executeTransaction] = useContext(TransactionsContext)
+
+    //useEffect(() => { mutate(KEY) }, [])
 
     function getButtonDisabledText() {
         if (amountFrom < 0) return "Not Enough Tokens in Pool"

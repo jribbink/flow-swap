@@ -9,23 +9,19 @@ import TransactionButton from './TransactionButton'
 import usePoolAmounts from 'hooks/use-pool-amounts'
 import useCurrentUser from 'hooks/use-current-user'
 import { addLiquidity } from 'util/add-liquidity'
-import { findPair, round } from 'util/util'
-import { quoteMarketValue, quoteTransaction } from 'util/quote'
+import { findPair } from 'util/util'
+import { quoteMarketValue } from 'util/quote'
 import { useBalance } from 'hooks/use-balance'
 import { TransactionsContext } from 'contexts/transactions-context'
 
 
-export default () => {
+type AddLiquidityContainerProps = {
+    tokenA?: Token,
+    tokenB?: Token
+}
+
+export default ({tokenA, tokenB}: AddLiquidityContainerProps) => {
     const router = useRouter()
-    if ((router.query.params?.length ?? 0) > 2) router.replace('/pool/add')
-
-
-    const [tokenA, tokenB] = (router.query.params as string[] ?? []).map(tokenUri => {
-        const info = Token.decodeFromUri((tokenUri ?? "") as string)
-        return config.tokens.find(token =>
-            token.address == info.address && token.name == info.contract
-        )
-    })
 
     const setTokenA = (token: Token) => {
         router.push(Token.generateAddLiquidityUrl(token, tokenB))

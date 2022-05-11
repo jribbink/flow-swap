@@ -1,6 +1,6 @@
 // @ts-ignore
 import * as fcl from "@onflow/fcl"
-import useCurrentUser from "hooks/use-current-user"
+import useCurrentUser from 'hooks/use-current-user'
 import { MouseEventHandler } from "react"
 import { Button } from "react-bootstrap"
 import ConnectWalletButton from "./ConnectWalletButton"

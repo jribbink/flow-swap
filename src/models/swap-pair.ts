@@ -13,4 +13,8 @@ export class SwapPair {
     generateAddLiquidityUrl() {
         return Token.generateAddLiquidityUrl(this.tokenA, this.tokenB)
     }
+
+    generateRemoveLiquidityUrl() {
+        return Token.generateRemoveLiquidityUrl(this.tokenA, this.tokenB)
+    }
 }

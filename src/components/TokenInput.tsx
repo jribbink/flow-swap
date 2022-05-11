@@ -1,5 +1,5 @@
 import { useBalance } from "hooks/use-balance"
-import useCurrentUser from "hooks/use-current-user"
+import useCurrentUser from 'hooks/use-current-user'
 import { Token } from "models/token"
 import { ChangeEventHandler, KeyboardEventHandler, useEffect, useRef, useState } from "react"
 import TokenSelect from "./TokenSelect"

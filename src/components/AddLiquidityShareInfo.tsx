@@ -1,5 +1,5 @@
 import config from "config"
-import useCurrentUser from "hooks/use-current-user"
+import useCurrentUser from 'hooks/use-current-user'
 import usePoolAmounts from "hooks/use-pool-amounts"
 import { SwapPair } from "models/swap-pair"
 import { Token } from "models/token"

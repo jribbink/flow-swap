@@ -1,5 +1,5 @@
 import config from "config"
-import useCurrentUser from "hooks/use-current-user"
+import useCurrentUser from 'hooks/use-current-user'
 import useLiquidityPositions from "hooks/use-liquidity-positions"
 import { LiquidityPosition } from "models/liquidity-position"
 import { Token } from "models/token"

@@ -40,8 +40,8 @@ export default ({position: {
                         <Link href={pair.generateAddLiquidityUrl()}>
                             <div className="btn btn-success col shadow-none" style={{borderRadius: '10px'}}>Add</div>
                         </Link>
-                        <Link href="">
-                            <div onClick={() => {alert("Feature not available yet")}} className="btn btn-success col shadow-none" style={{borderRadius: '10px'}}>Remove</div>
+                        <Link href={pair.generateRemoveLiquidityUrl()}>
+                            <div className="btn btn-success col shadow-none" style={{borderRadius: '10px'}}>Remove</div>
                         </Link>
                     </div>
                 </div>

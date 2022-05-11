@@ -4,7 +4,7 @@ import config from 'config';
 import { PoolAmounts } from 'models/pool-amount';
 import useSWR from "swr";
 
-const KEY = '/check-pool-amounts/'
+export const KEY = '/check-pool-amounts/'
 
 export default function useAllPoolAmounts(): PoolAmounts {
     const {data, error} = useSWR(KEY, async () => {
@@ -28,6 +28,8 @@ export default function useAllPoolAmounts(): PoolAmounts {
                 }
             `
         })
+
+        console.log("RES", res)
 
         const poolAmounts: PoolAmounts = {}
         config.pairs.forEach((pair, i) => {

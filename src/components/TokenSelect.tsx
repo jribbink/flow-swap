@@ -2,7 +2,7 @@ import { Token } from "models/token"
 import { MouseEventHandler, useEffect, useState } from "react"
 import FlowImage from 'assets/coins/FLOW.png'
 import styles from "styles/header.module.css"
-import useCurrentUser from "hooks/use-current-user"
+import useCurrentUser from 'hooks/use-current-user'
 import { useBalance } from "hooks/use-balance"
 import Image from "next/image"
 import TokenSelectModal from "./TokenSelectModal"

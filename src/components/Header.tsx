@@ -2,7 +2,7 @@ import Image from "next/image";
 import KittyImage from "assets/kitty-eth.svg"
 import ConnectWalletButton from "./ConnectWalletButton";
 import AccountMenu from "./AccountMenu";
-import useCurrentUser from "hooks/use-current-user";
+import useCurrentUser from 'hooks/use-current-user';
 import NavigationMenu from "./NavigationMenu";
 import useWindowSize from "hooks/use-window-size";
 import Breakpoint from "./Breakpoint";

@@ -38,4 +38,12 @@ export class Token {
             tokenTo ? (tokenTo.uri + '/') : ''
         }`
     }
+
+    static generateRemoveLiquidityUrl (tokenFrom?: Token, tokenTo?: Token) {
+        return `/pool/remove/${
+            tokenFrom?.uri ?? 'A.0000000000000000.NoToken'
+        }/${
+            tokenTo ? (tokenTo.uri + '/') : ''
+        }`
+    }
 }

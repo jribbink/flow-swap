@@ -2,7 +2,7 @@
 import * as fcl from '@onflow/fcl'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck, faCircleCheck, faCopy } from "@fortawesome/free-solid-svg-icons"
-import useCurrentUser from "hooks/use-current-user"
+import useCurrentUser from 'hooks/use-current-user'
 import { MouseEventHandler, useRef, useState } from "react"
 import { generateFlowscanURL } from "util/util"
 
