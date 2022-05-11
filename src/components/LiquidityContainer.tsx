@@ -8,7 +8,7 @@ export default () => {
     const addLiquidityUrl = Token.generateAddLiquidityUrl(config.pairs[0].tokenA, config.pairs[0].tokenB)
 
     return (
-        <div className="mx-auto" style={{maxWidth: '500px'}}>
+        <div className="mx-auto w-100" style={{maxWidth: '500px'}}>
             <div className="d-flex flex-row align-items-end px-2">
                 <span className="fw-bold">Your Liquidity Positions</span>
                 <Link href={addLiquidityUrl}>
