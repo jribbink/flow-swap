@@ -1,14 +1,14 @@
-import config from "config";
-import { SwapPair } from "models/swap-pair";
-import { Token } from "models/token";
+import config from 'config';
+import { SwapPair } from 'models/swap-pair';
+import { Token } from 'models/token';
 
 /**
  * Simple object check.
  * @param item
  * @returns {boolean}
  */
- export function isObject(item: any) {
-  return (item && typeof item === 'object' && !Array.isArray(item));
+export function isObject(item: any) {
+  return item && typeof item === 'object' && !Array.isArray(item);
 }
 
 /**
@@ -34,36 +34,39 @@ export function mergeDeep(target: any, ...sources: any[]): any {
   return mergeDeep(target, ...sources);
 }
 
-export function round (value: number, precision: number) {
-  return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision)
+export function round(value: number, precision: number) {
+  return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
 }
 
 export function findPair(tokenA?: Token, tokenB?: Token): SwapPair | undefined {
-  if(!tokenA || !tokenB) return undefined
+  if (!tokenA || !tokenB) return undefined;
 
-  return config.pairs.find(pair => 
+  return config.pairs.find(
+    (pair) =>
       (tokenA?.equals(pair.tokenA) && tokenB?.equals(pair.tokenB)) ||
       (tokenA?.equals(pair.tokenB) && tokenB?.equals(pair.tokenA))
-  )
+  );
 }
 
 export function numberToPercent(value: number) {
-  return `${value > 0.01 ? (round(value, 4) * 100).toFixed(2) : '<0.01'}%`
+  return `${value > 0.01 ? (round(value, 4) * 100).toFixed(2) : '<0.01'}%`;
 }
 
 export function generateFlowscanURL({
   accountAddress,
   transactionId
 }: {
-  accountAddress?: string,
-  transactionId?: string
+  accountAddress?: string;
+  transactionId?: string;
 }) {
-  let url = `https://${(config.network == "testnet")?"testnet.":""}flowscan.org/`
+  let url = `https://${
+    config.network == 'testnet' ? 'testnet.' : ''
+  }flowscan.org/`;
   if (transactionId) {
-    url += `transaction/${transactionId}`
+    url += `transaction/${transactionId}`;
   } else if (accountAddress) {
-    url += `account/${accountAddress}`
+    url += `account/${accountAddress}`;
   }
 
-  return url
+  return url;
 }

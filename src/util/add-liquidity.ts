@@ -1,23 +1,27 @@
 // @ts-ignore
-import * as fcl from '@onflow/fcl'
-import config from 'config'
-import { SwapPair } from 'models/swap-pair'
-import { round } from './util'
+import * as fcl from '@onflow/fcl';
+import config from 'config';
+import { SwapPair } from 'models/swap-pair';
+import { round } from './util';
 
-export const addLiquidity: TransactionFunction = async (swap: SwapPair, tokenAIn: number, tokenBIn: number) => {
-    const tokenAMin = tokenAIn * (1 - config.clientOptions.slippage)
-    const tokenBMin = tokenBIn * (1 - config.clientOptions.slippage)
+export const addLiquidity: TransactionFunction = async (
+  swap: SwapPair,
+  tokenAIn: number,
+  tokenBIn: number
+) => {
+  const tokenAMin = tokenAIn * (1 - config.clientOptions.slippage);
+  const tokenBMin = tokenBIn * (1 - config.clientOptions.slippage);
 
-    const {tokenA, tokenB} = swap
+  const { tokenA, tokenB } = swap;
 
-    const txId = await fcl.mutate({
-        args: (arg: any, t: any) => [
-            arg(tokenBIn.toFixed(8), t.UFix64),
-            arg(tokenAIn.toFixed(8), t.UFix64),
-            arg(tokenBMin.toFixed(8), t.UFix64),
-            arg(tokenAMin.toFixed(8), t.UFix64)
-        ],
-        cadence: `
+  const txId = await fcl.mutate({
+    args: (arg: any, t: any) => [
+      arg(tokenBIn.toFixed(8), t.UFix64),
+      arg(tokenAIn.toFixed(8), t.UFix64),
+      arg(tokenBMin.toFixed(8), t.UFix64),
+      arg(tokenAMin.toFixed(8), t.UFix64)
+    ],
+    cadence: `
         import FungibleToken from 0xFungibleToken
         import ${tokenA.name} from ${tokenA.address}
         import ${tokenB.name} from ${tokenB.address}
@@ -79,11 +83,14 @@ export const addLiquidity: TransactionFunction = async (swap: SwapPair, tokenAIn
           }
         }
         `,
-        limit: 1000
-    })
+    limit: 1000
+  });
 
-    return {
-      id: txId,
-      description: `Add ${round(tokenAIn, 4)} ${swap.tokenA.ticker} and ${round(tokenBIn, 4)} ${swap.tokenB.ticker} liquidity`
-    }
-}
+  return {
+    id: txId,
+    description: `Add ${round(tokenAIn, 4)} ${swap.tokenA.ticker} and ${round(
+      tokenBIn,
+      4
+    )} ${swap.tokenB.ticker} liquidity`
+  };
+};

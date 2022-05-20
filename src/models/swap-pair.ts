@@ -1,20 +1,20 @@
-import { Token } from "./token";
+import { Token } from './token';
 
 export class SwapPair {
-    name!: string
-    tokenA!: Token
-    tokenB!: Token
-    address!: string
+  name!: string;
+  tokenA!: Token;
+  tokenB!: Token;
+  address!: string;
 
-    constructor(data: NonOptional<SwapPair>) {
-        Object.assign(this, data)
-    }
+  constructor(data: Partial<SwapPair>) {
+    Object.assign(this, data);
+  }
 
-    generateAddLiquidityUrl() {
-        return Token.generateAddLiquidityUrl(this.tokenA, this.tokenB)
-    }
+  generateAddLiquidityUrl() {
+    return Token.generateAddLiquidityUrl(this.tokenA, this.tokenB);
+  }
 
-    generateRemoveLiquidityUrl() {
-        return Token.generateRemoveLiquidityUrl(this.tokenA, this.tokenB)
-    }
+  generateRemoveLiquidityUrl() {
+    return Token.generateRemoveLiquidityUrl(this.tokenA, this.tokenB);
+  }
 }

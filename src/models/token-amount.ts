@@ -1,6 +1,6 @@
-import { Token } from "./token";
+import { Token } from './token';
 
 export interface TokenAmount {
-    token?: Token
-    amount: number
+  token?: Token;
+  amount: number;
 }

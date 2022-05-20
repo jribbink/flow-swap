@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "emulator": "concurrently 'flow emulator --contracts' 'sleep 5 && flow project deploy --network=emulator' 'npm run dev-wallet'",
-    "dev-wallet": "npm run --prefix ../fcl-dev-wallet/ dev"
+    "dev-wallet": "npm run --prefix ../fcl-dev-wallet/ dev",
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -32,6 +33,7 @@
     "concurrently": "^7.1.0",
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.6",
+    "prettier": "^2.6.2",
     "typescript": "4.6.4"
   }
 }

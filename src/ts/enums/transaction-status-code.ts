@@ -1,8 +1,8 @@
 export enum TransactionStatusCode {
-    UNKNOWN,
-    PENDING,
-    FINALIZED,
-    EXECUTED,
-    SEALED,
-    EXPIRED
-  }
+  UNKNOWN,
+  PENDING,
+  FINALIZED,
+  EXECUTED,
+  SEALED,
+  EXPIRED
+}

@@ -1,4 +1,4 @@
 export interface BaseModalProps {
-    show: boolean,
-    onShowChange: (visibility: boolean) => void
+  show: boolean;
+  onShowChange: (visibility: boolean) => void;
 }
