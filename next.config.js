@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+export default {
   reactStrictMode: true,
   env: {
     NETWORK: 'local'
@@ -9,10 +9,8 @@ const nextConfig = {
       {
         source: '/',
         destination: '/swap',
-        permanent: true,
-      },
-    ]
-  },
-}
-
-module.exports = nextConfig
+        permanent: true
+      }
+    ];
+  }
+};

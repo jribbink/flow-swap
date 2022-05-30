@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "emulator": "concurrently 'flow emulator --contracts' 'sleep 5 && flow project deploy --network=emulator' 'npm run dev-wallet'",
+    "emulator": "ts-node ./scripts/start-emulator",
+    "deploy:project": "flow project deploy --network=emulator",
     "dev-wallet": "npm run --prefix ../fcl-dev-wallet/ dev",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
@@ -20,6 +21,7 @@
     "@onflow/fcl": "^1.0.2",
     "@onflow/types": "^0.0.6",
     "bootstrap": "^5.1.3",
+    "elliptic": "^6.5.4",
     "next": "12.1.6",
     "react": "18.1.0",
     "react-bootstrap": "^2.3.1",
@@ -34,6 +36,8 @@
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.6",
     "prettier": "^2.6.2",
+    "ts-node": "^10.8.0",
     "typescript": "4.6.4"
-  }
+  },
+  "type": "module"
 }
