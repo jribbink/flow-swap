@@ -478,7 +478,7 @@ pub contract FlowFusdSwapPair: FungibleToken {
   }
 
   init() {
-    self.isFrozen = true // frozen until admin unfreezes
+    self.isFrozen = false // frozen until admin unfreezes
     self.totalSupply = 0.0
 
     self.TokenStoragePath = /storage/flowFusdFspLpVault

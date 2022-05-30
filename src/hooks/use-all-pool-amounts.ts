@@ -2,11 +2,16 @@
 import * as fcl from '@onflow/fcl';
 import config from 'config';
 import { PoolAmounts } from 'models/pool-amount';
-import useSWR from 'swr';
+import { useEffect } from 'react';
+import useSWR, { mutate } from 'swr';
 
 export const KEY = '/check-pool-amounts/';
 
 export default function useAllPoolAmounts(): PoolAmounts {
+  useEffect(() => {
+    mutate('/check-pool-amounts/');
+  }, []);
+
   const { data, error } = useSWR(KEY, async () => {
     const res = await fcl.query({
       cadence: `

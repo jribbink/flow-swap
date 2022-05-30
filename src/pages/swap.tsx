@@ -1,10 +1,8 @@
-import SwapContainer from 'components/SwapContainer'
-import type { NextPage } from 'next'
+import SwapContainer from 'components/SwapContainer';
+import type { NextPage } from 'next';
 
 const Home: NextPage = () => {
-  return (
-    <SwapContainer></SwapContainer>
-  )
-}
+  return <SwapContainer></SwapContainer>;
+};
 
-export default Home
+export default Home;

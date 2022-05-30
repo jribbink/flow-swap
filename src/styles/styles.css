@@ -1,26 +1,26 @@
 .rounded-4 {
-    border-radius: 15px !important;
+  border-radius: 15px !important;
 }
 
 .rounded-4-bottom {
-    border-radius: 0 0 15px 15px !important;
+  border-radius: 0 0 15px 15px !important;
 }
 
 .no-border {
-    border: 0 !important;
-    box-shadow: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 .modal-sm {
-    max-width: 400px !important;
+  max-width: 400px !important;
 }
 
 .modal-h-90 {
-    margin-top: 5vh !important;
-    max-height: 90% !important;
+  margin-top: 5vh !important;
+  max-height: 90% !important;
 }
 
 .listgroup-disabled-50:disabled {
-    opacity: 50% !important;
-    color: #212529 !important;
+  opacity: 50% !important;
+  color: #212529 !important;
 }
